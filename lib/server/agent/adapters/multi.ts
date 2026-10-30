@@ -70,7 +70,7 @@ export const opencodeAdapter: CliAdapter = {
         ...(variant ? ['--variant', variant] : []),
         ...(provider.extraArgs ?? []),
       ],
-      input: resume && ctx.task.round === 0 ? 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối vp-result.' : prompt,
+      input: resume && ctx.task.round === 0 ? 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối jv-result.' : prompt,
       env: { OPENCODE_CONFIG_CONTENT: JSON.stringify({ permission: opencodePermission(ctx.permission) }) },
     };
   },
@@ -189,7 +189,7 @@ export const piAdapter: CliAdapter = {
         '--session',
         session,
         ...(provider.extraArgs ?? []),
-        resume && ctx.task.round === 0 ? 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối vp-result.' : await promptFile(),
+        resume && ctx.task.round === 0 ? 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối jv-result.' : await promptFile(),
       ],
       sessionId: session,
     };

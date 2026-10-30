@@ -1,9 +1,9 @@
 // Kết nối MongoDB (singleton qua globalThis), tạo index, khởi tạo dữ liệu và nhập dữ liệu JSON cũ.
 // Nhiều công ty: mỗi công ty một cơ sở dữ liệu riêng (công ty chính "main" dùng CSDL gốc MONGODB_DB, công ty khác
 // dùng MONGODB_DB__<mã>) → mọi collection tách theo công ty. Danh sách công ty, kết nối AI và tài khoản dùng chung (CSDL gốc).
-// Công ty đang làm việc: ngữ cảnh worker (runWithCompany) → cookie "vp_company" của trình duyệt → "main".
+// Công ty đang làm việc: ngữ cảnh worker (runWithCompany) → cookie "jv_company" của trình duyệt → "main".
 import { AsyncLocalStorage } from 'async_hooks';
-import { MongoClient, ObjectId, type Db, type Collection } from 'mongodb';
+import { MongoClient, ObjectId, type Db, type Collection, type Document } from 'mongodb';
 import fs from 'fs/promises';
 import path from 'path';
 import type {
@@ -45,7 +45,7 @@ import type {
 import { DEFAULT_COMPANY, DEFAULT_DEPARTMENTS, DEFAULT_FLOORS, DEFAULT_SETTINGS, DEFAULT_WORKFLOW, DIRECTOR_WORKFLOW, LEGACY_DEPARTMENT_COLORS } from './seed';
 
 export const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017';
-export const MONGODB_DB = process.env.MONGODB_DB || 'vanphong_ai';
+export const MONGODB_DB = process.env.MONGODB_DB || 'jvcompany';
 
 interface Meta {
   _id: string;
@@ -111,7 +111,7 @@ const als: AsyncLocalStorage<{ companyId: string }> = (g.__vpCompanyAls ??= new 
 
 export const MAIN_COMPANY = 'main';
 export const COMPANY_ID_RE = /^[a-z0-9][a-z0-9-]{1,30}$/;
-export const COMPANY_COOKIE = 'vp_company';
+export const COMPANY_COOKIE = 'jv_company';
 
 /** Tên CSDL của một công ty. */
 export function companyDbName(companyId: string): string {
@@ -330,8 +330,9 @@ async function importLegacyJson(c: Collections) {
 async function mongo(): Promise<MongoClient> {
   if (state.client) return state.client;
   state.connecting ??= (async () => {
-    const client = new MongoClient(MONGODB_URI, { serverSelectionTimeoutMS: 5000, appName: 'vanphong-ai' });
+    const client = new MongoClient(MONGODB_URI, { serverSelectionTimeoutMS: 5000, appName: 'jvcompany' });
     await client.connect();
+    await copyLegacyDatabases(client).catch((err) => console.error('[jvcompany] Chép dữ liệu từ CSDL cũ lỗi:', err));
     state.client = client;
     return client;
   })().catch((err) => {
@@ -339,6 +340,49 @@ async function mongo(): Promise<MongoClient> {
     throw err;
   });
   return state.connecting;
+}
+
+/** Tên CSDL gốc của bản cũ (Văn Phòng AI). */
+const LEGACY_DB = 'vanphong_ai';
+
+/** Lần đầu chạy dưới tên JVCompany: CSDL mới còn trống mà CSDL cũ (vanphong_ai, vanphong_ai__<mã>) có dữ liệu → chép
+ *  từng collection sang tên mới. CSDL cũ giữ nguyên; công ty nào đã có dữ liệu ở tên mới thì bỏ qua. */
+async function copyLegacyDatabases(client: MongoClient) {
+  if (MONGODB_DB === LEGACY_DB) return;
+  const { databases } = await client.db().admin().listDatabases({ nameOnly: true });
+  const names = new Set(databases.map((d) => d.name));
+  for (const legacy of names) {
+    if (legacy !== LEGACY_DB && !legacy.startsWith(`${LEGACY_DB}__`)) continue;
+    const target = `${MONGODB_DB}${legacy.slice(LEGACY_DB.length)}`.slice(0, 63);
+    if (names.has(target) && (await client.db(target).listCollections({}, { nameOnly: true }).toArray()).length) continue;
+    const from = client.db(legacy);
+    const to = client.db(target);
+    const cols = (await from.listCollections({ type: 'collection' }, { nameOnly: true }).toArray()).filter((c) => !c.name.startsWith('system.'));
+    for (const { name } of cols) {
+      let batch: Document[] = [];
+      for await (const doc of from.collection(name).find()) {
+        batch.push(doc);
+        if (batch.length >= 500) {
+          await to.collection(name).insertMany(batch, { ordered: false });
+          batch = [];
+        }
+      }
+      if (batch.length) await to.collection(name).insertMany(batch, { ordered: false });
+    }
+    await renameLegacyBrand(to);
+    console.log(`[jvcompany] Đã chép CSDL cũ ${legacy} → ${target} (${cols.length} collection).`);
+  }
+}
+
+/** Trong bản chép: tên công ty mặc định và kỹ năng có sẵn của bản cũ → tên JVCompany. */
+async function renameLegacyBrand(db: Db) {
+  const OLD = 'Văn Phòng AI';
+  const OLD_SKILL = 'quy-trinh-van-phong';
+  const NEW_SKILL = 'quy-trinh-jvcompany';
+  const swap = (field: string) => ({ $replaceAll: { input: `$${field}`, find: OLD, replacement: 'JVCompany' } });
+  await db.collection('companies').updateMany({ name: OLD }, { $set: { name: 'JVCompany' } });
+  await db.collection('skills').updateMany({ key: OLD_SKILL }, [{ $set: { key: NEW_SKILL, name: swap('name'), description: swap('description'), markdown: swap('markdown') } }]);
+  await db.collection('departments').updateMany({ skills: OLD_SKILL }, { $set: { 'skills.$': NEW_SKILL } });
 }
 
 /** "Phiên bản" danh sách collection – đổi khi thêm collection (dev server nạp lại module nhưng giữ globalThis). */

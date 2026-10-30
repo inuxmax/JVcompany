@@ -135,7 +135,7 @@ export function policyFor(conn: Pick<McpConnection, 'tools' | 'defaultPolicy'>, 
 // ---------------- Máy khách MCP (stdio / Streamable HTTP) ----------------
 
 const PROTOCOL = '2025-06-18';
-const CLIENT_INFO = { name: 'van-phong-ai', version: '2.0.0' };
+const CLIENT_INFO = { name: 'jvcompany', version: '2.0.0' };
 
 interface RpcResponse {
   id?: number | string;
@@ -408,9 +408,9 @@ export function localOrigin(): string {
   return `http://127.0.0.1:${process.env.PORT || 2501}`;
 }
 
-const HOOK_SCRIPT = `// Hook PreToolUse của Văn Phòng AI: hỏi ứng dụng có cho chạy thao tác không (lệnh shell, ghi tệp, thao tác MCP).
+const HOOK_SCRIPT = `// Hook PreToolUse của JVCompany: hỏi ứng dụng có cho chạy thao tác không (lệnh shell, ghi tệp, thao tác MCP).
 // Dùng http.request (không giới hạn thời gian) thay vì fetch: fetch bỏ cuộc sau 5 phút trong khi chủ công ty có thể duyệt lâu hơn.
-// "defer" = không phải việc của Văn Phòng AI → không in gì, để Claude Code tự quyết theo quyền của nó.
+// "defer" = không phải việc của JVCompany → không in gì, để Claude Code tự quyết theo quyền của nó.
 const http = require('http');
 let input = '';
 process.stdin.on('data', (d) => (input += d));
@@ -419,10 +419,10 @@ process.stdin.on('end', () => {
     if (decision !== 'defer') process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: 'PreToolUse', permissionDecision: decision === 'allow' ? 'allow' : 'deny', permissionDecisionReason: reason || '' } }));
     process.exit(0);
   };
-  const fail = (e) => done('deny', 'Không liên lạc được Văn Phòng AI để xin phép thao tác này. ' + (e && e.message ? e.message : e || ''));
+  const fail = (e) => done('deny', 'Không liên lạc được JVCompany để xin phép thao tác này. ' + (e && e.message ? e.message : e || ''));
   try {
     const body = Buffer.from(input || '{}');
-    const req = http.request(process.env.VP_HOOK_URL, { method: 'POST', headers: { 'content-type': 'application/json', 'content-length': body.length, 'x-vp-hook-token': process.env.VP_HOOK_TOKEN || '' } }, (res) => {
+    const req = http.request(process.env.JV_HOOK_URL, { method: 'POST', headers: { 'content-type': 'application/json', 'content-length': body.length, 'x-jv-hook-token': process.env.JV_HOOK_TOKEN || '' } }, (res) => {
       let out = '';
       res.setEncoding('utf8');
       res.on('data', (c) => (out += c));
@@ -447,7 +447,7 @@ process.stdin.on('end', () => {
 async function hookScriptPath(): Promise<string> {
   const dir = path.join(appDataDir(), 'mcp');
   await fs.mkdir(dir, { recursive: true });
-  const file = path.join(dir, 'vp-mcp-hook.cjs');
+  const file = path.join(dir, 'jv-mcp-hook.cjs');
   try {
     if ((await fs.readFile(file, 'utf8')) === HOOK_SCRIPT) return file;
   } catch {
@@ -472,7 +472,7 @@ const SHELL_TOOLS = 'Bash|PowerShell';
 /**
  * Chuẩn bị cho một lượt Claude Code:
  * - kết nối dịch vụ: tệp --mcp-config (đã giải bí mật, xoá sau lượt chạy), --allowedTools / --disallowedTools theo chính sách;
- * - hook PreToolUse gọi về ứng dụng để áp ĐÚNG quy tắc quyền của Văn Phòng AI (permissions.ts) – như agent API:
+ * - hook PreToolUse gọi về ứng dụng để áp ĐÚNG quy tắc quyền của JVCompany (permissions.ts) – như agent API:
  *   · chỉ đọc: chỉ chạy lệnh xem/tìm kiếm; · ghi: lệnh shell tạo thẻ phê duyệt; · ghi/tự động: ghi tệp ngoài dự án tạo thẻ phê duyệt;
  *   · thao tác MCP "Hỏi trước" tạo thẻ phê duyệt, "Tắt" bị chặn.
  * Không cần hook (toàn quyền, không có kết nối dịch vụ) → null.
@@ -528,7 +528,7 @@ export async function prepareClaudeHooks(
       ...(allowed.length ? ['--allowedTools', ...allowed] : []),
       ...(disallowed.length ? ['--disallowedTools', ...disallowed] : []),
     ],
-    env: { VP_HOOK_URL: `${localOrigin()}/api/mcp/hook`, VP_HOOK_TOKEN: token },
+    env: { JV_HOOK_URL: `${localOrigin()}/api/mcp/hook`, JV_HOOK_TOKEN: token },
     secretValues,
     cleanup: async () => {
       hookRuns.delete(token);
@@ -544,7 +544,7 @@ export async function decideHook(token: string, toolName: string, toolInput: unk
   return runWithCompany(run.companyId ?? 'main', () => decideFor(run, toolName, toolInput));
 }
 
-/** allow / deny = Văn Phòng AI quyết; defer = để Claude Code tự quyết theo quyền của nó. */
+/** allow / deny = JVCompany quyết; defer = để Claude Code tự quyết theo quyền của nó. */
 export type HookVerdict = { decision: 'allow' | 'deny' | 'defer'; reason: string };
 
 const verdict = (denied: string | null, okReason = ''): HookVerdict => (denied ? { decision: 'deny', reason: denied } : { decision: 'allow', reason: okReason });
@@ -580,7 +580,7 @@ async function decideFor(run: HookRun, toolName: string, toolInput: unknown): Pr
   }
   const m = /^mcp__(.+?)__(.+)$/.exec(toolName);
   const conn = m ? run.connections.find((x) => x.key === m[1]) : undefined;
-  // Máy chủ MCP không do Văn Phòng AI cấu hình (vd cấu hình riêng của Claude Code) → để Claude Code tự quyết theo quyền
+  // Máy chủ MCP không do JVCompany cấu hình (vd cấu hình riêng của Claude Code) → để Claude Code tự quyết theo quyền
   // của nó (không "allow" thay, vì allow của hook vượt qua kiểm tra quyền của Claude Code)
   if (!m || !conn) return { decision: 'defer', reason: '' };
   const policy = policyFor(conn, m[2]);
@@ -591,7 +591,7 @@ async function decideFor(run: HookRun, toolName: string, toolInput: unknown): Pr
   if (policy === 'allow') return { decision: 'allow', reason: '' };
   if (policy === 'off') {
     await run.log(`⛔ Chặn thao tác ${conn.name} → ${m[2]} (đang tắt)`);
-    return { decision: 'deny', reason: `Thao tác "${m[2]}" của ${conn.name} đang bị TẮT trong Văn Phòng AI. Hãy làm cách khác.` };
+    return { decision: 'deny', reason: `Thao tác "${m[2]}" của ${conn.name} đang bị TẮT trong JVCompany. Hãy làm cách khác.` };
   }
   const denied = await run.request({
     type: 'mcp',

@@ -61,5 +61,5 @@ export interface DesktopBridge {
 
 export function desktop(): DesktopBridge | null {
   if (typeof window === 'undefined') return null;
-  return ((window as unknown as { vanphong?: DesktopBridge }).vanphong ?? null) as DesktopBridge | null;
+  return ((window as unknown as { jvcompany?: DesktopBridge }).jvcompany ?? null) as DesktopBridge | null;
 }

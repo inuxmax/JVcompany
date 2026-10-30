@@ -155,9 +155,9 @@ function capLive(text: string, max = 40_000): string {
 ${text.slice(-(max - 4000))}` : text;
 }
 
-/** Chữ cho người đọc: dừng ở khối kết quả máy đọc (vp-result) thay vì hiện JSON thô. */
+/** Chữ cho người đọc: dừng ở khối kết quả máy đọc (jv-result) thay vì hiện JSON thô. */
 function visibleLive(text: string): string {
-  const i = text.indexOf('```vp-result');
+  const i = text.indexOf('```jv-result');
   if (i < 0) return text;
   const before = text.slice(0, i).trimEnd();
   return `${before}${before ? '\n\n' : ''}_✍️ Đang soạn kết quả và kế hoạch giao việc…_`;
@@ -303,7 +303,7 @@ export async function runTask(taskId: string, signal: AbortSignal): Promise<void
     extras: emptyExtras(),
     env: deptEnv,
     secretValues,
-    company: { name: company?.name ?? 'Văn Phòng AI', mission: company?.mission ?? '', goals: await goalAncestry(goalId), chain, skills: bundle.skills },
+    company: { name: company?.name ?? 'JVCompany', mission: company?.mission ?? '', goals: await goalAncestry(goalId), chain, skills: bundle.skills },
     log: agentLogger(task, dept, secretValues),
     setLive: liveUpdater(task),
   };
@@ -407,7 +407,7 @@ export async function runTask(taskId: string, signal: AbortSignal): Promise<void
     if (mcpCleanup) await Promise.resolve(mcpCleanup()).catch(() => undefined);
     const after = await getTask(taskId);
     await finishRun(run, { status: runStatus, before, after: ctx.usage, billingType: ctx.billing?.billingType, sessionAfter: after?.sessionId ?? null, error: runError, excerpt }).catch((e) =>
-      console.error('[vanphong] Ghi lượt chạy lỗi:', e),
+      console.error('[jvcompany] Ghi lượt chạy lỗi:', e),
     );
   }
 }
@@ -678,5 +678,5 @@ export async function submitManualResponse(taskId: string, text: string): Promis
       allowDelegation: await canDelegate(task, department, settings, project),
     },
   );
-  return { ok: true, message: parsed.found ? 'Đã nhận kết quả.' : 'Đã nhận (không thấy khối vp-result, dùng toàn văn làm tóm tắt).' };
+  return { ok: true, message: parsed.found ? 'Đã nhận kết quả.' : 'Đã nhận (không thấy khối jv-result, dùng toàn văn làm tóm tắt).' };
 }

@@ -194,7 +194,7 @@ export async function pollConnector(id: string, waitSec = 20): Promise<number> {
     }
     for (const u of updates) {
       await c.chatConnectors.updateOne({ _id: id }, { $max: { lastUpdateId: u.update_id } });
-      if (u.message) await handleIncoming(conn, u.message).catch((err) => console.error('[vanphong] Telegram xử lý tin lỗi:', err));
+      if (u.message) await handleIncoming(conn, u.message).catch((err) => console.error('[jvcompany] Telegram xử lý tin lỗi:', err));
     }
     return updates.length;
   } finally {
@@ -231,7 +231,7 @@ async function handleIncoming(conn: ChatConnector, m: NonNullable<TgUpdate['mess
     await emit('inbox.updated', null, {});
     if (binding.status === 'pending') {
       await logActivity({ actorType: 'system', action: 'connector.chat_requested', entityType: 'connector', entityId: conn._id, summary: `Telegram "${title}" xin kết nối (mã ${binding.code})` });
-      await sendText(conn, chatId, `👋 Xin chào! Cuộc trò chuyện này cần chủ văn phòng duyệt trước.\nMã ghép nối: ${binding.code}\nChủ văn phòng duyệt trong Hộp thư của Văn Phòng AI.`);
+      await sendText(conn, chatId, `👋 Xin chào! Cuộc trò chuyện này cần chủ văn phòng duyệt trước.\nMã ghép nối: ${binding.code}\nChủ văn phòng duyệt trong Hộp thư của JVCompany.`);
       return;
     }
   }
@@ -355,7 +355,7 @@ export async function forwardMessage(messageId: string): Promise<number> {
       await sendText(conn, b.chatId, `${who}:\n${m.content}${options}`);
       sent++;
     } catch (err) {
-      console.error('[vanphong] Gửi Telegram lỗi:', err);
+      console.error('[jvcompany] Gửi Telegram lỗi:', err);
     }
   }
   return sent;

@@ -67,7 +67,7 @@ function CompanyInfo() {
             <Textarea rows={3} value={f.mission ?? ''} onChange={(e) => set({ mission: e.target.value })} />
           </Field>
           <div className="grid gap-3 sm:grid-cols-2">
-            <Field label={t('Tiền tố mã nhiệm vụ')} hint={t('Nhiệm vụ mới có mã {code}', { code: `${f.issuePrefix || 'VP'}-${(data.issueCounter ?? 0) + 1}` })}>
+            <Field label={t('Tiền tố mã nhiệm vụ')} hint={t('Nhiệm vụ mới có mã {code}', { code: `${f.issuePrefix || 'JV'}-${(data.issueCounter ?? 0) + 1}` })}>
               <Input value={f.issuePrefix ?? ''} onChange={(e) => set({ issuePrefix: e.target.value.toUpperCase().slice(0, 6) })} className="font-mono" />
             </Field>
             <Field label={t('Ngân sách mỗi tháng (USD)')} hint={t('0 = không giới hạn')}>

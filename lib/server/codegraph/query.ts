@@ -1,6 +1,6 @@
 // Tra cứu đồ thị (chuyển từ serve.py của Graphify): query (BFS/DFS theo câu hỏi, cắt theo ngân sách token),
 // explain (một nút + các kết nối), path (đường ngắn nhất), god nodes, phân hệ, thống kê.
-// Giữ cùng thuật toán với scripts/vp-graph.cjs (công cụ dòng lệnh cho agent CLI).
+// Giữ cùng thuật toán với scripts/jv-graph.cjs (công cụ dòng lệnh cho agent CLI).
 import type { CodeGraph, GraphEdge, GraphNode } from './types';
 
 export interface Neighbor {

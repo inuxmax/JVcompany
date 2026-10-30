@@ -39,12 +39,12 @@ import { CEO_RECIPIENT, ChatComposer, RecipientPicker } from './chat-composer';
 type LiveTask = Pick<Task, '_id' | 'departmentId' | 'title' | 'liveText' | 'updatedAt' | 'kind'>;
 
 const WRITING_RESULT = m('_✍️ Đang soạn kết quả và kế hoạch giao việc…_');
-/** Khoá trong khối kết quả máy đọc (vp-result) – không hiện thô cho người đọc. */
+/** Khoá trong khối kết quả máy đọc (jv-result) – không hiện thô cho người đọc. */
 const PROTOCOL_KEY = /["{,]\s*"(summary|decision|delegate|artifacts|files|step|after|to|title|instructions|priority|permission)"\s*:/;
 
 /** Câu trả lời đang viết: bỏ khối kết quả máy đọc (JSON), chỉ giữ đoạn cuối phần chữ cho người đọc. */
 function liveTail(text: string): string {
-  const fence = text.lastIndexOf('```vp-result');
+  const fence = text.lastIndexOf('```jv-result');
   let body = fence >= 0 ? text.slice(0, fence) : text;
   const writingResult = fence >= 0 || PROTOCOL_KEY.test(body);
   if (fence < 0 && writingResult) {
@@ -89,7 +89,7 @@ function ThreadPicker({ projects, current, onPick, preferFloor }: { projects: Pr
         <ChevronDown className={clsx('size-4 shrink-0 text-muted transition-transform', open && 'rotate-180')} />
       </button>
       {open && (
-        <div role="listbox" className="animate-vp-in absolute top-full left-0 z-30 mt-1 max-h-96 w-full min-w-[280px] overflow-y-auto rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl">
+        <div role="listbox" className="animate-jv-in absolute top-full left-0 z-30 mt-1 max-h-96 w-full min-w-[280px] overflow-y-auto rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl">
           <button
             type="button"
             onClick={() => {
@@ -459,7 +459,7 @@ export function OfficeChat({
                 <div key={tk._id} className="flex items-center gap-2 py-1.5 pl-1 text-[12.5px] text-muted">
                   <span className="flex gap-0.5">
                     {[0, 1, 2].map((i) => (
-                      <span key={i} className="size-1.5 animate-vp-pulse rounded-full" style={{ background: d?.color, animationDelay: `${i * 0.2}s` }} />
+                      <span key={i} className="size-1.5 animate-jv-pulse rounded-full" style={{ background: d?.color, animationDelay: `${i * 0.2}s` }} />
                     ))}
                   </span>
                   <span className="truncate">

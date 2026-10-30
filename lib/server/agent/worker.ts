@@ -29,10 +29,10 @@ export async function forEachCompany(fn: (companyId: string) => Promise<void>): 
   try {
     ids = await runWithCompany(MAIN_COMPANY, () => activeCompanyIds());
   } catch (err) {
-    console.error('[vanphong] Không đọc được danh sách công ty:', err);
+    console.error('[jvcompany] Không đọc được danh sách công ty:', err);
   }
   for (const id of ids) {
-    await runWithCompany(id, () => fn(id)).catch((err) => console.error(`[vanphong] worker (${id}) lỗi:`, err));
+    await runWithCompany(id, () => fn(id)).catch((err) => console.error(`[jvcompany] worker (${id}) lỗi:`, err));
   }
 }
 
@@ -104,7 +104,7 @@ async function bootstrap() {
       if (!defaultId && d.type === 'claude-code') defaultId = p._id;
     }
   } catch (err) {
-    console.error('[vanphong] Quét agent thất bại:', err);
+    console.error('[jvcompany] Quét agent thất bại:', err);
   }
   if (!existing.some((p) => p.kind === 'manual')) {
     const preset = getPreset('web-manual');
@@ -147,7 +147,7 @@ export async function tick() {
       await forEachCompany(() => tickOnce());
     } while (again);
   } catch (err) {
-    console.error('[vanphong] worker tick lỗi:', err);
+    console.error('[jvcompany] worker tick lỗi:', err);
   } finally {
     ticking = false;
   }
@@ -158,9 +158,9 @@ async function tickOnce() {
   if (!settings.workerEnabled) return;
   await assignQueuedProjects();
   // Lịch định kỳ & heartbeat (tự giới hạn ~20 giây một lần)
-  await tickRoutines().catch((err) => console.error('[vanphong] Lịch định kỳ lỗi:', err));
-  await tickHeartbeats().catch((err) => console.error('[vanphong] Heartbeat lỗi:', err));
-  await tickEvals().catch((err) => console.error('[vanphong] Bộ đánh giá lỗi:', err));
+  await tickRoutines().catch((err) => console.error('[jvcompany] Lịch định kỳ lỗi:', err));
+  await tickHeartbeats().catch((err) => console.error('[jvcompany] Heartbeat lỗi:', err));
+  await tickEvals().catch((err) => console.error('[jvcompany] Bộ đánh giá lỗi:', err));
   const companyId = await currentCompanyId();
   const capacity = settings.concurrency - runningForCompany(companyId);
   if (capacity <= 0) return;
@@ -203,7 +203,7 @@ async function tickOnce() {
     const controller = registerRunning(t._id, t.projectId, companyId);
     void emit('task.updated', t.projectId, { id: t._id, status: 'running' });
     runTask(t._id, controller.signal)
-      .catch((err) => console.error(`[vanphong] runTask ${t._id} lỗi:`, err))
+      .catch((err) => console.error(`[jvcompany] runTask ${t._id} lỗi:`, err))
       .finally(() => {
         unregisterRunning(t._id);
         void emit('worker.state');
@@ -222,9 +222,9 @@ export async function startWorker() {
     await forEachCompany(() => recover());
     await runWithCompany(MAIN_COMPANY, () => bootstrap());
     // Tài khoản đăng nhập: ghi lại ảnh chụp cho proxy.ts (khi đã có tài khoản)
-    await syncAuthOnStart().catch((err) => console.error('[vanphong] Đồng bộ tài khoản lỗi:', err));
+    await syncAuthOnStart().catch((err) => console.error('[jvcompany] Đồng bộ tài khoản lỗi:', err));
   } catch (err) {
-    console.error('[vanphong] Không khởi động được worker (MongoDB?):', err);
+    console.error('[jvcompany] Không khởi động được worker (MongoDB?):', err);
     control.started = false;
     setTimeout(() => void startWorker(), 10_000);
     return;
@@ -239,6 +239,6 @@ export async function startWorker() {
   setInterval(() => void heartbeat().catch(() => {}), HEARTBEAT_MS);
   // Định kỳ thu hồi nhiệm vụ của worker đã chết (vd: một instance khác bị tắt đột ngột).
   setInterval(() => void forEachCompany(() => recover()).catch(() => {}), STALE_MS);
-  console.log('[vanphong] Worker đã khởi động.');
+  console.log('[jvcompany] Worker đã khởi động.');
   void tick();
 }

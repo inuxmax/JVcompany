@@ -71,7 +71,7 @@ export function ElevatorDoors({ closed, from, to, title, subtitle, dark }: { clo
         role="status"
       >
         <div className="flex items-center gap-3 rounded-2xl bg-[#25211c] px-5 py-3 shadow-xl ring-1 ring-black/25">
-          <Arrow className={clsx('size-7 text-[#E0B44A]', moving ? 'animate-vp-pulse' : 'opacity-30')} strokeWidth={2.5} />
+          <Arrow className={clsx('size-7 text-[#E0B44A]', moving ? 'animate-jv-pulse' : 'opacity-30')} strokeWidth={2.5} />
           <span className={clsx('min-w-[1.6ch] text-center font-mono text-[44px] leading-none font-semibold text-[#E0B44A] tabular-nums', !moving && closed && 'drop-shadow-[0_0_10px_rgba(224,180,74,0.7)]')}>
             {levelText(shown)}
           </span>

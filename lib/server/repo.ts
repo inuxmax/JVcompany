@@ -72,7 +72,7 @@ export async function createDepartment(data: Partial<Department> & { name: strin
     capabilities: data.capabilities ?? [],
     systemPrompt:
       data.systemPrompt ??
-      `# Vai trò\nBạn là ${data.title ?? 'chuyên viên'} của ${data.name} trong Văn Phòng AI.\n\n# Trách nhiệm\n- ...\n`,
+      `# Vai trò\nBạn là ${data.title ?? 'chuyên viên'} của ${data.name} trong JVCompany.\n\n# Trách nhiệm\n- ...\n`,
     canDelegateTo: data.canDelegateTo ?? [],
     canApprove: data.canApprove ?? false,
     providerId: data.providerId ?? null,
@@ -367,15 +367,15 @@ export type NewTask = Pick<Task, 'projectId' | 'kind' | 'title' | 'instructions'
     >
   >;
 
-/** Cấp mã nhiệm vụ dễ đọc (vd VP-12) từ bộ đếm của công ty. */
+/** Cấp mã nhiệm vụ dễ đọc (vd JV-12) từ bộ đếm của công ty. */
 async function nextIdentifier(): Promise<string> {
   const c = await getCollections();
   const r = await c.companies.findOneAndUpdate(
     { _id: await currentCompanyId() },
-    { $inc: { issueCounter: 1 }, $setOnInsert: { name: 'Văn Phòng AI', mission: '', issuePrefix: 'VP', status: 'active', budgetMonthlyUsd: 0, requireApprovalForNewAgents: false, onboardedAt: null, createdAt: now(), updatedAt: now() } },
+    { $inc: { issueCounter: 1 }, $setOnInsert: { name: 'JVCompany', mission: '', issuePrefix: 'JV', status: 'active', budgetMonthlyUsd: 0, requireApprovalForNewAgents: false, onboardedAt: null, createdAt: now(), updatedAt: now() } },
     { upsert: true, returnDocument: 'after' },
   );
-  return `${r?.issuePrefix || 'VP'}-${r?.issueCounter ?? 1}`;
+  return `${r?.issuePrefix || 'JV'}-${r?.issueCounter ?? 1}`;
 }
 
 export async function createTask(data: NewTask): Promise<Task> {

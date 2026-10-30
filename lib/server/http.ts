@@ -54,7 +54,7 @@ export function route<A extends unknown[]>(fn: (...args: A) => Promise<Response>
       return await fn(...args);
     } catch (err) {
       if (err instanceof LocalizedError) return fail(err.key, err.status, err.vars ?? {});
-      console.error('[vanphong api]', err);
+      console.error('[jvcompany api]', err);
       const message = err instanceof Error ? err.message : String(err);
       const db = /ECONNREFUSED|MongoServerSelectionError|connect/i.test(message);
       return db ? fail('Không kết nối được MongoDB: {message}', 503, { message }) : fail(message, 500);

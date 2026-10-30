@@ -50,7 +50,7 @@ export function CompanySwitcher({ compact, block }: { compact?: boolean; block?:
         <ChevronsUpDown className="size-3.5 shrink-0" />
       </button>
       {open && (
-        <div className={clsx('animate-vp-in absolute z-50 mt-2 w-72 rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl', compact ? 'bottom-full left-0 mb-2' : 'top-full left-0')}>
+        <div className={clsx('animate-jv-in absolute z-50 mt-2 w-72 rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl', compact ? 'bottom-full left-0 mb-2' : 'top-full left-0')}>
           <div className="px-3 pt-1.5 pb-1 text-[11px] font-semibold tracking-wider text-subtle uppercase">{t('Công ty (mỗi công ty một toà nhà)')}</div>
           {companies.map((c) => (
             <button

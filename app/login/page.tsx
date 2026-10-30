@@ -38,11 +38,11 @@ function LoginForm() {
       <div className="w-full max-w-sm">
         <div className="mb-8 flex items-center gap-3">
           <span className="relative flex size-11 items-center justify-center rounded-2xl bg-fg font-display text-[18px] font-semibold text-bg italic">
-            vp
+            jv
             <span className="absolute -right-0.5 -bottom-0.5 size-3 rounded-[4px] bg-accent ring-2 ring-[var(--bg)]" />
           </span>
           <div>
-            <div className="font-display text-[22px] leading-none font-semibold tracking-tight">Văn Phòng AI</div> {/* i18n-ignore: tên sản phẩm */}
+            <div className="font-display text-[22px] leading-none font-semibold tracking-tight">JVCompany</div> {/* i18n-ignore: tên sản phẩm */}
             <div className="mt-1 text-[12px] tracking-[0.14em] text-subtle uppercase">{t('Đăng nhập')}</div>
           </div>
         </div>

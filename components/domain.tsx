@@ -100,7 +100,7 @@ export function PhaseDots({ project, workflow }: { project: Project; workflow?: 
             className={clsx(
               'h-1.5 flex-1 rounded-full transition-colors',
               done ? 'bg-accent-2' : current ? 'bg-accent' : 'bg-surface-3',
-              current && project.status === 'active' && 'animate-vp-pulse',
+              current && project.status === 'active' && 'animate-jv-pulse',
             )}
           />
         );

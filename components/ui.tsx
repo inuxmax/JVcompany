@@ -184,7 +184,7 @@ export function Badge({
       className={clsx('inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11.5px] font-medium whitespace-nowrap', className)}
       style={{ background: tint(c, 0.14), color: c }}
     >
-      {dot && <span className={clsx('size-1.5 rounded-full', pulse && 'animate-vp-pulse')} style={{ background: c }} />}
+      {dot && <span className={clsx('size-1.5 rounded-full', pulse && 'animate-jv-pulse')} style={{ background: c }} />}
       {children}
     </span>
   );
@@ -359,7 +359,7 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         className={clsx(
-          'animate-vp-in relative flex max-h-[92vh] w-full flex-col overflow-hidden rounded-t-[28px] border border-line bg-surface-solid/95 shadow-2xl backdrop-blur-2xl sm:rounded-[28px]',
+          'animate-jv-in relative flex max-h-[92vh] w-full flex-col overflow-hidden rounded-t-[28px] border border-line bg-surface-solid/95 shadow-2xl backdrop-blur-2xl sm:rounded-[28px]',
           width,
         )}
       >
@@ -410,7 +410,7 @@ export function Drawer({
       <div className="absolute inset-0 bg-[#1a140e]/35 backdrop-blur-sm" onClick={onClose} />
       <aside
         className={clsx(
-          'animate-vp-in relative m-0 flex h-full w-full flex-col overflow-hidden border-l border-line bg-surface-solid/95 shadow-2xl backdrop-blur-2xl sm:m-3 sm:h-[calc(100%-24px)] sm:rounded-[28px] sm:border',
+          'animate-jv-in relative m-0 flex h-full w-full flex-col overflow-hidden border-l border-line bg-surface-solid/95 shadow-2xl backdrop-blur-2xl sm:m-3 sm:h-[calc(100%-24px)] sm:rounded-[28px] sm:border',
           width,
         )}
       >
@@ -463,12 +463,12 @@ export function EmptyState({
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <div className={clsx('animate-vp-pulse rounded-3xl bg-surface-2', className)} />;
+  return <div className={clsx('animate-jv-pulse rounded-3xl bg-surface-2', className)} />;
 }
 
 export function Markdown({ children, className }: { children: string; className?: string }) {
   return (
-    <div className={clsx('prose-vp', className)}>
+    <div className={clsx('prose-jv', className)}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -538,7 +538,7 @@ export function DeptAvatar({
   const ic = { sm: 'size-3.5', md: 'size-5', lg: 'size-7' }[size];
   return (
     <div
-      className={clsx('relative flex shrink-0 items-center justify-center', dim, busy && 'animate-vp-ring', className)}
+      className={clsx('relative flex shrink-0 items-center justify-center', dim, busy && 'animate-jv-ring', className)}
       style={{
         background: `linear-gradient(145deg, ${tint(color, 0.38)}, ${tint(color, 0.08)})`,
         color,
@@ -592,7 +592,7 @@ export function Toaster() {
         <div
           key={item.id}
           className={clsx(
-            'animate-vp-in pointer-events-auto max-w-sm rounded-2xl border px-4 py-3 text-[13px] shadow-xl backdrop-blur-xl',
+            'animate-jv-in pointer-events-auto max-w-sm rounded-2xl border px-4 py-3 text-[13px] shadow-xl backdrop-blur-xl',
             item.kind === 'success' && 'border-ok/30 bg-surface text-fg',
             item.kind === 'error' && 'border-danger/40 bg-surface text-danger',
             item.kind === 'info' && 'border-line bg-surface text-fg',
@@ -675,15 +675,15 @@ export function ConfirmHost() {
         key={current.id}
         role="alertdialog"
         aria-modal="true"
-        aria-labelledby="vp-confirm-title"
-        className="animate-vp-in relative w-full max-w-[440px] rounded-[26px] border border-line bg-surface-solid p-5 shadow-2xl sm:p-6"
+        aria-labelledby="jv-confirm-title"
+        className="animate-jv-in relative w-full max-w-[440px] rounded-[26px] border border-line bg-surface-solid p-5 shadow-2xl sm:p-6"
       >
         <div className="flex items-start gap-4">
           <span className={clsx('flex size-11 shrink-0 items-center justify-center rounded-2xl', tone.badge)}>
             <Icon className="size-5" />
           </span>
           <div className="min-w-0 pt-0.5">
-            <h2 id="vp-confirm-title" className="font-display text-[17px] leading-snug font-semibold text-fg">
+            <h2 id="jv-confirm-title" className="font-display text-[17px] leading-snug font-semibold text-fg">
               {current.title}
             </h2>
             {current.message && <div className="mt-1.5 text-[13.5px] leading-relaxed text-muted">{current.message}</div>}

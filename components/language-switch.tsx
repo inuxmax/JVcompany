@@ -59,7 +59,7 @@ export function LanguageSwitch({ placement = 'up', compact }: { placement?: 'up'
           role="listbox"
           aria-label={label}
           className={clsx(
-            'animate-vp-in absolute z-50 w-52 rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl',
+            'animate-jv-in absolute z-50 w-52 rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl',
             placement === 'up' && 'right-0 bottom-full mb-2',
             placement === 'down' && 'top-full right-0 mt-2',
             placement === 'right' && 'bottom-0 left-full ml-3',

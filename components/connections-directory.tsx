@@ -32,7 +32,7 @@ export function ConnectorMonogram({ name, color, className }: { name: string; co
  * Mở cửa sổ ngay trong lần bấm (tránh bị chặn popup), sau đó mới gán địa chỉ.
  */
 export async function oauthLogin(connId: string, name: string): Promise<boolean> {
-  const popup = window.open('', 'vp-oauth', 'width=560,height=720');
+  const popup = window.open('', 'jv-oauth', 'width=560,height=720');
   try {
     const { url } = await api.patch<{ url: string }>(`${KEY}/${connId}`, { action: 'oauth-start' });
     if (!popup) {
@@ -57,7 +57,7 @@ export async function oauthLogin(connId: string, name: string): Promise<boolean>
       resolve(v);
     };
     const onMessage = (e: MessageEvent) => {
-      if (e.origin === window.location.origin && e.data?.type === 'vp-oauth') finish(Boolean(e.data.ok));
+      if (e.origin === window.location.origin && e.data?.type === 'jv-oauth') finish(Boolean(e.data.ok));
     };
     window.addEventListener('message', onMessage);
     // Đóng cửa sổ mà không báo → kiểm tra lại trạng thái từ máy chủ

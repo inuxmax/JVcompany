@@ -236,7 +236,7 @@ function RoutineDetail({ routine, onClose }: { routine: Routine; onClose: () => 
                 <Button size="xs" variant="ghost" onClick={rotate} icon={<RefreshCw className="size-3.5" />} aria-label={t('Đổi mã')} />
               </div>
             )}
-            <p className="text-muted">{t('Gửi JSON (vd {example}); header Idempotency-Key để tránh chạy trùng. Từ máy khác cần mở truy cập mạng LAN (VANPHONG_ACCESS_KEY).', { example: '{"variables": {"khach_hang": "ACME"}}' })}</p>
+            <p className="text-muted">{t('Gửi JSON (vd {example}); header Idempotency-Key để tránh chạy trùng. Từ máy khác cần mở truy cập mạng LAN (JVCOMPANY_ACCESS_KEY).', { example: '{"variables": {"khach_hang": "ACME"}}' })}</p>
           </div>
         )}
         <div className="rounded-2xl border border-line p-3 text-[12.5px]">

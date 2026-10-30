@@ -1,7 +1,7 @@
 // Gắn bản đồ mã vào lượt chạy của agent để tiết kiệm token (mục đích cốt lõi của Graphify):
 // - Lời nhắc của mỗi nhiệm vụ có sẵn tổng quan dự án + phần đồ thị liên quan đến nhiệm vụ → agent biết ngay cần đọc
 //   tệp nào, không phải grep / đọc lan man cả thư mục.
-// - Agent API: công cụ graph_query / graph_explain / graph_path. Agent CLI: lệnh chỉ đọc scripts/vp-graph.cjs.
+// - Agent API: công cụ graph_query / graph_explain / graph_path. Agent CLI: lệnh chỉ đọc scripts/jv-graph.cjs.
 import path from 'path';
 import type { Project, Settings, Task } from '../../types';
 import { overviewText } from './build';
@@ -9,7 +9,7 @@ import { ensureGraph, graphFile } from './store';
 import { explain, query, shortestPath, type GraphIndex } from './query';
 
 /** Công cụ dòng lệnh cho agent CLI (đường dẫn tuyệt đối, dấu / để chạy được cả trên Windows). */
-export const GRAPH_CLI = path.join(process.cwd(), 'scripts', 'vp-graph.cjs').replace(/\\/g, '/');
+export const GRAPH_CLI = path.join(process.cwd(), 'scripts', 'jv-graph.cjs').replace(/\\/g, '/');
 
 const fwd = (p: string) => p.replace(/\\/g, '/');
 const sleep = (ms: number) => new Promise<null>((r) => setTimeout(() => r(null), ms));

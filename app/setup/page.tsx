@@ -37,7 +37,7 @@ const STEPS = [
   { title: m('Bắt đầu'), icon: Rocket },
 ];
 
-const DRAFT_KEY = 'vp.setupDraft';
+const DRAFT_KEY = 'jv.setupDraft';
 type Draft = { step: number; name: string; mission: string; teamId: string; leadTitle: string };
 
 function readDraft(): Partial<Draft> {
@@ -303,7 +303,7 @@ export default function SetupPage() {
             </span>
             <div>
               {/* i18n-ignore: tên sản phẩm */}
-              <div className="font-display text-[18px] font-semibold">Văn Phòng AI</div>
+              <div className="font-display text-[18px] font-semibold">JVCompany</div>
               <div className="text-[12px] text-muted">{t('Thiết lập ban đầu')}</div>
             </div>
           </div>
@@ -393,7 +393,7 @@ export default function SetupPage() {
                 <div className="space-y-5">
                   <div>
                     <h1 className="font-display text-[28px] font-semibold">{t('Kết nối mô hình AI')}</h1>
-                    <p className="mt-1 text-[14px] text-muted">{t('Văn Phòng AI làm việc bằng gói đăng ký hoặc API key của bạn. Chọn một kết nối và kiểm tra để tiếp tục.')}</p>
+                    <p className="mt-1 text-[14px] text-muted">{t('JVCompany làm việc bằng gói đăng ký hoặc API key của bạn. Chọn một kết nối và kiểm tra để tiếp tục.')}</p>
                   </div>
                   <ModelStep data={data} onReady={setProviderId} />
                 </div>

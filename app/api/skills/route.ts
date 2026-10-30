@@ -5,7 +5,7 @@ import { m } from '@/lib/i18n';
 
 export const GET = route(async () => {
   const [skills, depts] = await Promise.all([listSkills(), listDepartments()]);
-  return ok(skills.map((s) => ({ ...s, departments: depts.filter((d) => d.skills?.includes(s.key) || s.key === 'quy-trinh-van-phong').map((d) => d._id) })));
+  return ok(skills.map((s) => ({ ...s, departments: depts.filter((d) => d.skills?.includes(s.key) || s.key === 'quy-trinh-jvcompany').map((d) => d._id) })));
 });
 
 /** { markdown, name?, description? } = viết tay; { locator } = nhập từ URL / GitHub / thư mục trên máy. */

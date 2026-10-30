@@ -291,8 +291,8 @@ function EnvironmentImpl({
       <Box size={[SOFA.table.w, 0.42, SOFA.table.d]} position={[SOFA.table.x, 0.21, SOFA.table.z]} color={t.wood} />
       <CoffeeCounter {...PANTRY.counter} t={t} />
 
-      {/* Sảnh lễ tân – tên thương hiệu "Văn Phòng AI" giữ nguyên (i18n-ignore) */}
-      <ReceptionDesk wall={RECEPTION.wall} counter={RECEPTION.counter} t={t} title={(companyName || 'Văn Phòng AI').toUpperCase()} />
+      {/* Sảnh lễ tân – tên thương hiệu "JVCompany" giữ nguyên (i18n-ignore) */}
+      <ReceptionDesk wall={RECEPTION.wall} counter={RECEPTION.counter} t={t} title={(companyName || 'JVCompany').toUpperCase()} />
       {RECEPTION.sofas.map((s, i) => (
         <Sofa key={i} x={s.x} z={s.z} w={s.w} d={s.d} facing={s.facing} t={t} color={i ? '#C9952F' : '#3F8A93'} />
       ))}

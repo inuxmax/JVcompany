@@ -238,7 +238,7 @@ export interface Company {
   /** Tên cơ sở dữ liệu riêng của công ty (công ty chính dùng CSDL gốc). */
   dbName?: string;
   mission: string;
-  /** Tiền tố mã nhiệm vụ (vd "VP" → VP-12). */
+  /** Tiền tố mã nhiệm vụ (vd "JV" → JV-12). */
   issuePrefix: string;
   issueCounter: number;
   status: 'active' | 'paused' | 'archived';
@@ -432,7 +432,7 @@ export interface Task {
   attachments?: Attachment[];
   /** Việc phải xong trước (phòng trước bàn giao) thì việc này mới chạy. */
   dependsOn?: string[];
-  /** Mã nhiệm vụ dễ đọc (vd VP-12). */
+  /** Mã nhiệm vụ dễ đọc (vd JV-12). */
   identifier?: string;
   /** Mục tiêu nhiệm vụ phục vụ (để trống = theo dự án / công ty). */
   goalId?: string | null;
@@ -1033,7 +1033,7 @@ export interface InstalledPlugin {
   version?: string | null;
   /** Nguồn cài: gói dựng sẵn, npm, GitHub, URL, lệnh npx (máy chủ MCP). */
   source: { type: 'catalog' | 'npm' | 'github' | 'url' | 'npx'; locator: string; command?: string | null };
-  /** Thư mục chứa mã đã tải (trong .vanphong/plugins) – null với gói dựng sẵn / npx. */
+  /** Thư mục chứa mã đã tải (trong .jvcompany/plugins) – null với gói dựng sẵn / npx. */
   dir?: string | null;
   skills: string[];
   connections: string[];

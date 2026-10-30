@@ -26,7 +26,7 @@ function fallbackModel(provider: Provider, model: string): string {
 }
 
 async function promptFile(ctx: AgentContext, prompt: string): Promise<string> {
-  const dir = path.join(ctx.root, '.vanphong', 'tasks');
+  const dir = path.join(ctx.root, '.jvcompany', 'tasks');
   await fs.mkdir(dir, { recursive: true });
   const file = path.join(dir, `${ctx.task._id}.md`);
   await fs.writeFile(file, prompt, 'utf8');
@@ -136,11 +136,11 @@ export function createSink(ctx: AgentContext) {
   return { st, handle, finish: flush };
 }
 
-/** Kết quả cuối thiếu khối vp-result (vd agent viết nó ở lượt trước rồi tóm tắt lại) → lấy khối gần nhất đã viết. */
+/** Kết quả cuối thiếu khối jv-result (vd agent viết nó ở lượt trước rồi tóm tắt lại) → lấy khối gần nhất đã viết. */
 export function outcomeFrom(finalText: string, texts: string[], sessionId: string | null): AgentOutcome {
   let parsed = parseProtocol(finalText);
   if (!parsed.found) {
-    const earlier = [...texts].reverse().find((t) => t.includes('```vp-result'));
+    const earlier = [...texts].reverse().find((t) => t.includes('```jv-result'));
     if (earlier) {
       const recovered = parseProtocol(earlier);
       if (recovered.found) parsed = { ...recovered, summary: recovered.summary || parsed.summary };
@@ -255,7 +255,7 @@ export async function runCli(ctx: AgentContext, provider: Provider, model: strin
   const diagnostics = `${finalText}\n${errText}\n${sink.st.texts.slice(-3).join('\n')}\n${stderr}\n${r.error ?? ''}`;
 
   if (r.timedOut) throw new ProviderError(`${provider.name} chạy quá ${Math.round(timeoutMs / 60000)} phút và đã bị dừng.`, true);
-  const failed = r.code !== 0 || !finalText || (sink.st.resultError && !finalText.includes('```vp-result'));
+  const failed = r.code !== 0 || !finalText || (sink.st.resultError && !finalText.includes('```jv-result'));
   if (failed) {
     // Phiên cũ không còn (CLI đã dọn) → chạy lại một lần bằng phiên mới.
     if (resume && adapter.unknownSession?.test(diagnostics)) {

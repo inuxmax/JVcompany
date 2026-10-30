@@ -11,14 +11,14 @@ import { m } from '../i18n';
 
 export const SKILL_KEY_RE = /^[a-z0-9][a-z0-9-]{1,62}$/;
 
-/** Kỹ năng có sẵn: quy trình làm việc của Văn Phòng AI. */
+/** Kỹ năng có sẵn: quy trình làm việc của JVCompany. */
 export const BUILTIN_SKILLS: Omit<Skill, '_id' | 'createdAt' | 'updatedAt' | 'versions'>[] = [
   {
-    key: 'quy-trinh-van-phong',
-    name: 'Quy trình Văn Phòng AI',
+    key: 'quy-trinh-jvcompany',
+    name: 'Quy trình JVCompany',
     description: 'Dùng ở MỌI nhiệm vụ: cách nhận việc, giao việc, bàn giao, báo cáo và nộp kết quả trong công ty.',
     markdown: `---
-name: Quy trình Văn Phòng AI
+name: Quy trình JVCompany
 description: Cách nhận việc, giao việc, bàn giao, báo cáo và nộp kết quả trong công ty.
 ---
 
@@ -178,7 +178,7 @@ export async function importSkill(locator: string): Promise<Skill> {
 export async function materializeSkills(departmentId: string, keys: string[] | undefined): Promise<{ dir: string | null; skills: { key: string; name: string; description: string; path: string }[] }> {
   await ensureBuiltinSkills();
   const c = await getCollections();
-  const wanted = Array.from(new Set(['quy-trinh-van-phong', ...(keys ?? [])]));
+  const wanted = Array.from(new Set(['quy-trinh-jvcompany', ...(keys ?? [])]));
   const rows = await c.skills.find({ key: { $in: wanted } }, { projection: { versions: 0 } }).toArray();
   if (!rows.length) return { dir: null, skills: [] };
   // Công ty khác có thể trùng mã phòng (vd "director") → gói kỹ năng tách theo công ty

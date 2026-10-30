@@ -95,7 +95,7 @@ function DeptCard({ d, all, providers, defaultId, onOpen }: { d: DeptRow; all: D
         <div className="relative mt-3 rounded-2xl border border-line bg-surface-2 px-3 py-2 text-[12.5px]">
           {running ? (
             <div className="flex items-center gap-2">
-              <span className="size-1.5 shrink-0 animate-vp-pulse rounded-full" style={{ background: d.color }} />
+              <span className="size-1.5 shrink-0 animate-jv-pulse rounded-full" style={{ background: d.color }} />
               <span className="truncate">{t('Đang làm: {title}', { title: running.title })}</span>
             </div>
           ) : d.activeTasks.length ? (
@@ -835,7 +835,7 @@ function QueueList({ queue }: { queue: QueuedProject[] }) {
 }
 
 // Cuộc trò chuyện đang mở – nhớ trong trình duyệt để chuyển trang rồi quay lại vẫn thấy đúng cuộc đó.
-const LAST_THREAD_KEY = 'vp.chatThread';
+const LAST_THREAD_KEY = 'jv.chatThread';
 function readLastThread(): string | null {
   try {
     return localStorage.getItem(LAST_THREAD_KEY);
@@ -1126,14 +1126,14 @@ function OfficeInner() {
 }
 
 // Độ rộng khung chat (kéo thanh chia hoặc bấm mở rộng) – nhớ trong trình duyệt.
-const CHAT_W_KEY = 'vp.chatWidth';
+const CHAT_W_KEY = 'jv.chatWidth';
 const CHAT_W_DEFAULT = 600;
 const CHAT_W_MIN = 360;
 function subscribeChatW(cb: () => void) {
-  window.addEventListener('vp-chat-width', cb);
+  window.addEventListener('jv-chat-width', cb);
   window.addEventListener('storage', cb);
   return () => {
-    window.removeEventListener('vp-chat-width', cb);
+    window.removeEventListener('jv-chat-width', cb);
     window.removeEventListener('storage', cb);
   };
 }
@@ -1151,7 +1151,7 @@ function writeChatW(v: number) {
   } catch {
     /* trình duyệt chặn lưu – chỉ dùng trong phiên này */
   }
-  window.dispatchEvent(new Event('vp-chat-width'));
+  window.dispatchEvent(new Event('jv-chat-width'));
 }
 
 export default function OfficePage() {

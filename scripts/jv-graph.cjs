@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 // Tra bản đồ mã (đồ thị tri thức) của dự án – dành cho agent CLI (Claude Code, Codex, Gemini…) thay vì grep / đọc lan man.
-// Chỉ ĐỌC graph.json do Văn Phòng AI dựng (.vanphong/graphs/<dự án>/graph.json). Giữ cùng thuật toán với
+// Chỉ ĐỌC graph.json do JVCompany dựng (.jvcompany/graphs/<dự án>/graph.json). Giữ cùng thuật toán với
 // lib/server/codegraph/query.ts.
 //
-//   node scripts/vp-graph.cjs query "câu hỏi hoặc từ khoá" --graph <graph.json> [--dfs] [--depth 2] [--budget 1500]
-//   node scripts/vp-graph.cjs explain "TênHàm" --graph <graph.json>
-//   node scripts/vp-graph.cjs path "A" "B" --graph <graph.json>
-//   node scripts/vp-graph.cjs god [10] | community <id> | stats | report   --graph <graph.json>
+//   node scripts/jv-graph.cjs query "câu hỏi hoặc từ khoá" --graph <graph.json> [--dfs] [--depth 2] [--budget 1500]
+//   node scripts/jv-graph.cjs explain "TênHàm" --graph <graph.json>
+//   node scripts/jv-graph.cjs path "A" "B" --graph <graph.json>
+//   node scripts/jv-graph.cjs god [10] | community <id> | stats | report   --graph <graph.json>
 const fs = require('fs');
 const path = require('path');
 
@@ -18,14 +18,14 @@ const flag = (name, def) => {
   args.splice(i, v === undefined || v.startsWith('--') ? 1 : 2);
   return v === undefined || v.startsWith('--') ? true : v;
 };
-const graphPath = flag('graph', process.env.VP_GRAPH);
+const graphPath = flag('graph', process.env.JV_GRAPH);
 const depthArg = Number(flag('depth', 2));
 const budgetArg = Number(flag('budget', 1500));
 const dfs = flag('dfs', false) === true;
 const [cmd, ...rest] = args;
 
 if (!graphPath || !cmd) {
-  console.error('Cách dùng: node vp-graph.cjs <query|explain|path|god|community|stats|report> … --graph <graph.json>');
+  console.error('Cách dùng: node jv-graph.cjs <query|explain|path|god|community|stats|report> … --graph <graph.json>');
   process.exit(2);
 }
 let graph;

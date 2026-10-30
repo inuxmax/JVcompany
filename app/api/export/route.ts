@@ -23,7 +23,7 @@ export const GET = route(async () => {
   return new Response(body, {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Content-Disposition': `attachment; filename="vanphong-ai-backup-${new Date().toISOString().slice(0, 10)}.json"`,
+      'Content-Disposition': `attachment; filename="jvcompany-backup-${new Date().toISOString().slice(0, 10)}.json"`,
     },
   });
 });

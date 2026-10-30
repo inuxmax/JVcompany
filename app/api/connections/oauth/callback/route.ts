@@ -10,7 +10,7 @@ const page = (title: string, body: string, ok: boolean, lang: Locale = 'vi', bac
 .card{max-width:420px;margin:16px;padding:28px;border:1px solid #e2dacb;border-radius:24px;background:#fbf8f2}
 h1{font-size:20px;margin:0 0 8px;color:${ok ? '#4f8a5b' : '#c4483f'}}p{margin:0;color:#6b6359;font-size:14px;line-height:1.5}a{display:inline-block;margin-top:14px;color:#b4532a;font-size:14px}</style></head>
 <body><div class="card"><h1>${title}</h1><p>${body}</p><a href="/connections">← ${back}</a></div>
-<script>var o=null;try{o=window.opener;o&&o.postMessage({type:'vp-oauth',ok:${ok}},location.origin)}catch(e){}
+<script>var o=null;try{o=window.opener;o&&o.postMessage({type:'jv-oauth',ok:${ok}},location.origin)}catch(e){}
 ${ok ? "setTimeout(function(){if(o){window.close()}else{location.replace('/connections')}},1200)" : ''}</script></body></html>`,
     { status: ok ? 200 : 400, headers: { 'content-type': 'text/html; charset=utf-8' } },
   );

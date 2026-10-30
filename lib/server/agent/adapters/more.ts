@@ -5,7 +5,7 @@ import path from 'path';
 import type { CliAdapter, CliEvent, TextParse } from './types';
 import { commandLines, describeTool, effortFor, errorText, num, obj, opt, optNum, optStr, str } from './shared';
 
-const CONTINUE = 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối vp-result.';
+const CONTINUE = 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối jv-result.';
 
 // ---------------- Kimi Code ----------------
 
@@ -233,7 +233,7 @@ export const customAdapter: CliAdapter = {
     const args = (provider.extraArgs ?? []).map((a) => a.replace('{model}', model));
     const mode = provider.promptMode ?? 'stdin';
     // Lệnh tuỳ chỉnh tự giới hạn theo mức quyền: read | write | auto | full (+ thư mục dự án)
-    const env = { VP_PERMISSION: ctx.permission, VP_PROJECT_DIR: ctx.root };
+    const env = { JV_PERMISSION: ctx.permission, JV_PROJECT_DIR: ctx.root };
     if (mode === 'stdin') return { args, input: prompt, env };
     return { args: [...args, await promptFile()], env };
   },

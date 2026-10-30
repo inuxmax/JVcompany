@@ -77,7 +77,7 @@ export const codexAdapter: CliAdapter = {
         ...(resume ? ['resume', resume] : []),
         '-',
       ],
-      input: resume && ctx.task.round === 0 ? 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối vp-result.' : prompt,
+      input: resume && ctx.task.round === 0 ? 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối jv-result.' : prompt,
     };
   },
   probe(_provider, model) {

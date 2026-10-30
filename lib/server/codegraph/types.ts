@@ -89,7 +89,7 @@ export interface GraphStats {
 
 export interface CodeGraph {
   schemaVersion: 1;
-  generator: 'vanphong-codegraph';
+  generator: 'jvcompany-codegraph';
   root: string;
   builtAt: string;
   nodes: GraphNode[];

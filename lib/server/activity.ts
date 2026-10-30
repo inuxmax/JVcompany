@@ -60,7 +60,7 @@ export async function logActivity(input: ActivityInput): Promise<void> {
     await c.activity.insertOne(entry);
     await emit('activity.logged', input.projectId ?? null, { id: entry._id, action: entry.action });
   } catch (err) {
-    console.error('[vanphong] Ghi nhật ký lỗi:', err);
+    console.error('[jvcompany] Ghi nhật ký lỗi:', err);
   }
 }
 

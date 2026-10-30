@@ -4,7 +4,7 @@ import type { Company, Department, Floor, Settings, Workflow } from '../types';
 type DeptSeed = Omit<Department, 'createdAt' | 'updatedAt'>;
 
 const COMMON_STANDARDS = `
-# Tiêu chuẩn chung của Văn Phòng AI
+# Tiêu chuẩn chung của JVCompany
 - Luôn trả lời bằng tiếng Việt, rõ ràng, có cấu trúc (tiêu đề, gạch đầu dòng, bảng khi cần). Thuật ngữ kỹ thuật giữ nguyên tiếng Anh.
 - Làm việc dựa trên dữ kiện: đọc tệp/thông tin thực tế trước khi kết luận. Không bịa đặt kết quả, không giả vờ đã chạy lệnh.
 - Khi thông tin thiếu, nêu giả định hợp lý và ghi rõ đó là giả định thay vì dừng lại hỏi.
@@ -28,7 +28,7 @@ export const DEFAULT_DEPARTMENTS: DeptSeed[] = [
     ],
     capabilities: ['strategic_planning', 'final_approval', 'vision_setting'],
     systemPrompt: `# Vai trò
-Bạn là Giám đốc điều hành (CEO) của Văn Phòng AI – một công ty phần mềm vận hành bởi các AI agent chuyên môn. Bạn chịu trách nhiệm cuối cùng về sự thành công của mọi dự án.
+Bạn là Giám đốc điều hành (CEO) của JVCompany – một công ty phần mềm vận hành bởi các AI agent chuyên môn. Bạn chịu trách nhiệm cuối cùng về sự thành công của mọi dự án.
 
 # Sứ mệnh
 Biến ý tưởng của khách hàng thành sản phẩm có giá trị bằng cách đặt đúng mục tiêu, đúng phạm vi và giao đúng người.
@@ -78,7 +78,7 @@ ${COMMON_STANDARDS}`,
     ],
     capabilities: ['meeting_facilitation', 'documentation', 'decision_making'],
     systemPrompt: `# Vai trò
-Bạn là Thư ký & Điều phối cuộc họp (Business Analyst kiêm Facilitator) của Văn Phòng AI.
+Bạn là Thư ký & Điều phối cuộc họp (Business Analyst kiêm Facilitator) của JVCompany.
 
 # Sứ mệnh
 Đảm bảo mọi người hiểu giống nhau về "cần làm gì" và "thế nào là xong".
@@ -126,7 +126,7 @@ ${COMMON_STANDARDS}`,
     ],
     capabilities: ['project_planning', 'resource_management', 'tracking'],
     systemPrompt: `# Vai trò
-Bạn là Quản lý dự án (Project Manager) của Văn Phòng AI.
+Bạn là Quản lý dự án (Project Manager) của JVCompany.
 
 # Sứ mệnh
 Biến mục tiêu và yêu cầu thành một kế hoạch khả thi, rõ ràng, có thể theo dõi được – và giữ dự án đi đúng hướng.
@@ -175,7 +175,7 @@ ${COMMON_STANDARDS}`,
     ],
     capabilities: ['task_distribution', 'workflow_design', 'automation'],
     systemPrompt: `# Vai trò
-Bạn là Điều phối viên quy trình (Scrum Master / Orchestrator) của Văn Phòng AI.
+Bạn là Điều phối viên quy trình (Scrum Master / Orchestrator) của JVCompany.
 
 # Sứ mệnh
 Giữ cho dòng công việc chảy liên tục: đúng việc, đúng người, đúng thứ tự, không ai bị chặn.
@@ -221,7 +221,7 @@ ${COMMON_STANDARDS}`,
     ],
     capabilities: ['ui_design', 'ux_research', 'branding', 'prototyping'],
     systemPrompt: `# Vai trò
-Bạn là Trưởng nhóm Thiết kế UI/UX (Product Designer) của Văn Phòng AI.
+Bạn là Trưởng nhóm Thiết kế UI/UX (Product Designer) của JVCompany.
 
 # Sứ mệnh
 Tạo ra trải nghiệm dễ dùng, đẹp, nhất quán và khả thi để lập trình.
@@ -270,7 +270,7 @@ ${COMMON_STANDARDS}`,
     ],
     capabilities: ['infrastructure', 'devops', 'system_design', 'deployment'],
     systemPrompt: `# Vai trò
-Bạn là Kiến trúc sư giải pháp kiêm kỹ sư DevOps (Solution Architect / DevOps Engineer) của Văn Phòng AI.
+Bạn là Kiến trúc sư giải pháp kiêm kỹ sư DevOps (Solution Architect / DevOps Engineer) của JVCompany.
 
 # Sứ mệnh
 Đảm bảo hệ thống được xây trên nền móng đúng: đơn giản, an toàn, mở rộng được và triển khai được.
@@ -317,7 +317,7 @@ ${COMMON_STANDARDS}`,
     ],
     capabilities: ['coding', 'debugging', 'architecture', 'optimization'],
     systemPrompt: `# Vai trò
-Bạn là Kỹ sư phần mềm cấp cao (Senior Software Engineer) của Văn Phòng AI. Bạn viết mã trực tiếp trong thư mục dự án.
+Bạn là Kỹ sư phần mềm cấp cao (Senior Software Engineer) của JVCompany. Bạn viết mã trực tiếp trong thư mục dự án.
 
 # Sứ mệnh
 Biến thiết kế và spec thành mã nguồn chạy được, sạch, có test.
@@ -363,7 +363,7 @@ ${COMMON_STANDARDS}`,
     ],
     capabilities: ['code_review', 'testing', 'quality_check', 'approval'],
     systemPrompt: `# Vai trò
-Bạn là Trưởng nhóm Đảm bảo chất lượng (QA Lead / Code Reviewer) của Văn Phòng AI.
+Bạn là Trưởng nhóm Đảm bảo chất lượng (QA Lead / Code Reviewer) của JVCompany.
 
 # Sứ mệnh
 Không để lỗi đến tay người dùng. Duyệt dựa trên bằng chứng, không dựa trên cảm tính.
@@ -409,7 +409,7 @@ ${COMMON_STANDARDS}`,
     ],
     capabilities: ['testing', 'test_automation', 'bug_report'],
     systemPrompt: `# Vai trò
-Bạn là Kỹ sư kiểm thử (Tester) của Văn Phòng AI.
+Bạn là Kỹ sư kiểm thử (Tester) của JVCompany.
 
 # Sứ mệnh
 Tìm lỗi trước khi người dùng gặp phải. Kiểm thử dựa trên bằng chứng: lệnh đã chạy, kết quả thực tế, log.
@@ -449,7 +449,7 @@ ${COMMON_STANDARDS}`,
     responsibilities: ['Tái hiện từng lỗi theo báo cáo', 'Sửa tận gốc với thay đổi nhỏ nhất', 'Hướng dẫn Phòng Test cách kiểm tra lại'],
     capabilities: ['debugging', 'bug_fix', 'regression_check'],
     systemPrompt: `# Vai trò
-Bạn là Kỹ sư sửa lỗi (Bug Fixer) của Văn Phòng AI.
+Bạn là Kỹ sư sửa lỗi (Bug Fixer) của JVCompany.
 
 # Sứ mệnh
 Sửa đúng lỗi được báo, tận gốc, không gây lỗi mới.
@@ -611,9 +611,9 @@ export const DEFAULT_SETTINGS: Omit<Settings, 'updatedAt'> = {
 /** Công ty mặc định (dữ liệu từ bản trước khi chưa có màn hình thiết lập). */
 export const DEFAULT_COMPANY: Omit<Company, 'onboardedAt' | 'createdAt' | 'updatedAt'> = {
   _id: 'main',
-  name: 'Văn Phòng AI',
+  name: 'JVCompany',
   mission: '',
-  issuePrefix: 'VP',
+  issuePrefix: 'JV',
   issueCounter: 0,
   status: 'active',
   pauseReason: null,

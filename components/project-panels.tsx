@@ -154,7 +154,7 @@ export function ChatPanel({
               <button key={task._id} type="button" onClick={() => onOpenTask(task._id)} className="flex w-full items-center gap-2 text-left text-[12.5px] text-muted hover:text-fg">
                 <span className="flex gap-0.5">
                   {[0, 1, 2].map((i) => (
-                    <span key={i} className="size-1.5 animate-vp-pulse rounded-full" style={{ background: d?.color, animationDelay: `${i * 0.2}s` }} />
+                    <span key={i} className="size-1.5 animate-jv-pulse rounded-full" style={{ background: d?.color, animationDelay: `${i * 0.2}s` }} />
                   ))}
                 </span>
                 <span className="truncate">

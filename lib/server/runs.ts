@@ -85,7 +85,7 @@ export async function finishRun(
     };
     await c.costEvents.insertOne(ev);
     await emit('cost.recorded', run.projectId, { id: ev._id, costUsd: ev.costUsd });
-    await evaluateBudgets(ev).catch((err) => console.error('[vanphong] Kiểm tra ngân sách lỗi:', err));
+    await evaluateBudgets(ev).catch((err) => console.error('[jvcompany] Kiểm tra ngân sách lỗi:', err));
   }
 }
 

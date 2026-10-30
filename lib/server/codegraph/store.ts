@@ -1,4 +1,4 @@
-// Lưu & cập nhật đồ thị của từng dự án: .vanphong/graphs/<projectId>/ (graph.json, report.md, cache.json).
+// Lưu & cập nhật đồ thị của từng dự án: .jvcompany/graphs/<projectId>/ (graph.json, report.md, cache.json).
 // Cập nhật tăng dần: chỉ trích lại tệp đã đổi (theo thời điểm sửa + kích thước). Không ghi gì vào thư mục dự án.
 import fs from 'fs/promises';
 import path from 'path';
@@ -29,10 +29,10 @@ const state = globalThis as unknown as { __vpGraphs?: Map<string, Entry> };
 const entries = (state.__vpGraphs ??= new Map());
 
 export function graphDir(projectId: string): string {
-  return path.join(process.cwd(), '.vanphong', 'graphs', projectId.replace(/[^\w-]/g, '_'));
+  return path.join(process.cwd(), '.jvcompany', 'graphs', projectId.replace(/[^\w-]/g, '_'));
 }
 
-/** Đường dẫn graph.json (để agent CLI tra bằng scripts/vp-graph.cjs). */
+/** Đường dẫn graph.json (để agent CLI tra bằng scripts/jv-graph.cjs). */
 export function graphFile(projectId: string): string {
   return path.join(graphDir(projectId), 'graph.json');
 }
@@ -120,7 +120,7 @@ export async function ensureGraph(projectId: string, root: string, opts: { force
     })
     .catch((err: unknown) => {
       e.error = err instanceof Error ? err.message : String(err);
-      console.error('[vanphong] Dựng bản đồ mã lỗi:', err);
+      console.error('[jvcompany] Dựng bản đồ mã lỗi:', err);
       return e.index;
     })
     .finally(() => {

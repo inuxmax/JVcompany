@@ -1,8 +1,8 @@
 <div align="center">
 
-<a href="https://inuxmax.github.io/JVcompany/"><img src="docs/assets/banner.png" alt="Văn Phòng AI – an open-source, self-hosted software company run by AI agents (Claude Code, OpenAI Codex, Gemini CLI) inside a 3D office building" width="100%"></a>
+<a href="https://inuxmax.github.io/JVcompany/"><img src="docs/assets/banner.png" alt="JVCompany – an open-source, self-hosted software company run by AI agents (Claude Code, OpenAI Codex, Gemini CLI) inside a 3D office building" width="100%"></a>
 
-# Văn Phòng AI — the AI Agent Software Company
+# JVCompany — the AI Agent Software Company
 
 **Run a whole software company with AI agents.** Give one request to the CEO; ten specialised AI departments plan, design, code, test, review and ship it — inside a live 3D office building you can walk around in.
 
@@ -21,9 +21,9 @@
 
 ---
 
-## 📖 What is Văn Phòng AI?
+## 📖 What is JVCompany?
 
-**Văn Phòng AI** ("AI Office" in Vietnamese) is an open-source, self-hosted **multi-agent orchestration platform** that models a real software company. Every department — CEO, Business Analyst, Project Manager, Scrum Master, UI/UX Studio, Architect/DevOps, Senior Developer, QA, Tester and Bug Fixer — is an **AI agent** with a role-specific system prompt, its own permissions and its own AI model.
+**JVCompany** is an open-source, self-hosted **multi-agent orchestration platform** that models a real software company. Every department — CEO, Business Analyst, Project Manager, Scrum Master, UI/UX Studio, Architect/DevOps, Senior Developer, QA, Tester and Bug Fixer — is an **AI agent** with a role-specific system prompt, its own permissions and its own AI model.
 
 You describe what you want once. The CEO scopes the work, breaks it into a **hand-off chain** (Design → Develop → Test → Fix → Re-test → QA review), assigns each step to the right department with the right permissions, and reports back when everything is done. Agents work **directly in your project folder on your computer**, can delegate to each other, ask you questions, request approvals and — if you allow it — **control your computer** (shell commands, mouse, keyboard, screenshots).
 
@@ -31,7 +31,7 @@ It plugs into the AI tools you already pay for: **Claude Code, OpenAI Codex, Gem
 
 Runs in the **browser** or as a **desktop app** (Windows, macOS, Linux). Data stays on your machine in **MongoDB**.
 
-> 💡 **Why?** Single coding agents are great at single tasks. Real software needs planning, design, implementation, testing and review — with someone checking the work. Văn Phòng AI gives your agents an org chart, a workflow, a budget and a boss.
+> 💡 **Why?** Single coding agents are great at single tasks. Real software needs planning, design, implementation, testing and review — with someone checking the work. JVCompany gives your agents an org chart, a workflow, a budget and a boss.
 
 ## 📑 Table of contents
 
@@ -64,11 +64,11 @@ Runs in the **browser** or as a **desktop app** (Windows, macOS, Linux). Data st
 
 ## 🖼️ Screenshots
 
-> Screenshots show the Vietnamese UI. English is the default language; switch any time from the **Language** button.
+> The UI ships in 10 languages — English by default; switch any time from the **Language** button.
 
 <table>
   <tr>
-    <td width="50%"><img src="public/guide/overview.jpg" alt="Văn Phòng AI dashboard: running projects, tasks in progress, approvals waiting and the 3D company building"><br><sub><b>Dashboard</b> — live projects, tasks, approvals and the company tower.</sub></td>
+    <td width="50%"><img src="public/guide/overview.jpg" alt="JVCompany dashboard: running projects, tasks in progress, approvals waiting and the 3D company building"><br><sub><b>Dashboard</b> — live projects, tasks, approvals and the company tower.</sub></td>
     <td width="50%"><img src="public/guide/office.jpg" alt="3D office floor with AI agents working, next to a ChatGPT-style chat with the CEO"><br><sub><b>3D office + chat</b> — talk to the CEO while agents work on the floor.</sub></td>
   </tr>
   <tr>
@@ -142,7 +142,7 @@ Prefer a classic process? Switch the project to the **7-stage workflow**: Idea �
 
 ### 🔁 Workflows, goals & routines
 - **Goal tree** (company → team → person → task); agents receive the goal chain, manager chain and parent task in their prompt.
-- Tasks have IDs like **VP-123**, 4 priorities, labels, comments (re-opens finished work), work products (PRs, commits, preview links) and **multi-step approvals**.
+- Tasks have IDs like **JV-123**, 4 priorities, labels, comments (re-opens finished work), work products (PRs, commits, preview links) and **multi-step approvals**.
 - **Routines** create tasks on a **cron** schedule (with time zone), via **webhook** (Bearer or HMAC-SHA256, de-duplicated with `Idempotency-Key`) or **API**; coalesce/skip overlapping runs, catch up missed runs, template variables like `{{date}}`.
 
 ### 💰 Costs, budgets & reliability
@@ -184,7 +184,7 @@ npm run dev                     # → http://127.0.0.1:2501
 
 On first launch the app automatically:
 
-1. Creates default data in MongoDB (database `vanphong_ai`): departments, workflow, settings.
+1. Creates default data in MongoDB (database `jvcompany`): departments, workflow, settings.
 2. Imports legacy data from `data/*.json` if present.
 3. Scans your computer and adds every agent CLI it finds, plus a "Browser" connection.
 
@@ -226,7 +226,7 @@ The Claude API uses `claude-opus-5-5` for the Premium tier with `fallbacks: "def
 
 For CLI agents the level maps to the CLI's own mode — e.g. Claude Code: `plan` / `acceptEdits` / `acceptEdits + Bash` / `--dangerously-skip-permissions`; Codex: `read-only` / `workspace-write` / `danger-full-access`.
 
-**Security:** the server listens on `127.0.0.1` only and rejects requests that don't come from this machine (with CSRF protection). To use it from another device on your LAN, set `VANPHONG_ACCESS_KEY` in `.env.local`, run `next dev -H 0.0.0.0 -p 2501` and open `http://<ip>:2501/?key=<your-key>` once.
+**Security:** the server listens on `127.0.0.1` only and rejects requests that don't come from this machine (with CSRF protection). To use it from another device on your LAN, set `JVCOMPANY_ACCESS_KEY` in `.env.local`, run `next dev -H 0.0.0.0 -p 2501` and open `http://<ip>:2501/?key=<your-key>` once.
 
 ## 🏗️ Architecture
 
@@ -277,11 +277,11 @@ proxy.ts                 Local-only access + CSRF protection
 | Variable | Default | Description |
 |---|---|---|
 | `MONGODB_URI` | `mongodb://127.0.0.1:27017` | MongoDB connection string |
-| `MONGODB_DB` | `vanphong_ai` | Database name |
-| `VANPHONG_ACCESS_KEY` | – | Enables LAN access with this key |
-| `VANPHONG_WORKER` | – | `off` disables the agent worker in this instance |
-| `VANPHONG_DATA_DIR` | `.vanphong/` | Workspace for projects that are not linked to a folder |
-| `VANPHONG_PUBLIC_URL` | `http://127.0.0.1:2501` | Public URL external agents call back to |
+| `MONGODB_DB` | `jvcompany` | Database name |
+| `JVCOMPANY_ACCESS_KEY` | – | Enables LAN access with this key |
+| `JVCOMPANY_WORKER` | – | `off` disables the agent worker in this instance |
+| `JVCOMPANY_DATA_DIR` | `.jvcompany/` | Workspace for projects that are not linked to a folder |
+| `JVCOMPANY_PUBLIC_URL` | `http://127.0.0.1:2501` | Public URL external agents call back to |
 | `NEXT_DIST_DIR` | `.next` | Build directory (desktop dev uses `.next-desktop`) |
 
 Translations: see [`lib/i18n/README.md`](lib/i18n/README.md); find untranslated strings with `npm run i18n:check`.
@@ -296,12 +296,14 @@ npm run typecheck    # TypeScript
 npm run lint         # ESLint
 npm run i18n:check   # untranslated UI strings
 npm run desktop      # Electron desktop app
+node scripts/demo-seed.cjs                          # English demo company in the jvcompany_demo database
+npx electron scripts/guide-screenshots.cjs --demo   # re-capture the screenshots in public/guide
 ```
 
 ## ❓ FAQ
 
 <details>
-<summary><b>Is Văn Phòng AI free?</b></summary>
+<summary><b>Is JVCompany free?</b></summary>
 
 Yes. It is open source under the MIT license and runs on your own computer. You only pay for the AI you connect — or nothing at all with local models (Ollama, LM Studio) or the subscriptions you already have (Claude Pro/Max, ChatGPT, Gemini…).
 </details>
@@ -348,6 +350,6 @@ Keep UI strings translatable (`t('…')`) and follow the existing code style. If
 
 ## 📄 License
 
-[MIT](LICENSE) © Văn Phòng AI contributors
+[MIT](LICENSE) © JVCompany contributors
 
-<div align="center"><sub>Văn Phòng AI · AI agent software company · multi-agent orchestration for Claude Code, Codex & Gemini CLI · 3D office simulation</sub></div>
+<div align="center"><sub>JVCompany · AI agent software company · multi-agent orchestration for Claude Code, Codex & Gemini CLI · 3D office simulation</sub></div>

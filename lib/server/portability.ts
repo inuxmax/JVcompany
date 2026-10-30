@@ -17,7 +17,7 @@ export interface EnvInput {
 }
 
 export interface CompanyPackage {
-  format: 'vanphong-company/v1';
+  format: 'jv-company/v1';
   exportedAt: string;
   company: Pick<Company, 'name' | 'mission' | 'issuePrefix' | 'budgetMonthlyUsd' | 'requireApprovalForNewAgents'>;
   goals: Omit<Goal, 'createdAt' | 'updatedAt'>[];
@@ -57,7 +57,7 @@ export async function exportCompany(opts: { withProjects?: boolean } = {}): Prom
   ]);
   const envInputs: EnvInput[] = [];
   const pkg: CompanyPackage = {
-    format: 'vanphong-company/v1',
+    format: 'jv-company/v1',
     exportedAt: now(),
     company: { name: company.name, mission: company.mission, issuePrefix: company.issuePrefix, budgetMonthlyUsd: company.budgetMonthlyUsd, requireApprovalForNewAgents: company.requireApprovalForNewAgents },
     goals: goals.map(({ createdAt: _c, updatedAt: _u, ...g }) => (void _c, void _u, g)),

@@ -1,4 +1,4 @@
-// Kho bí mật: mã hoá AES-256-GCM bằng khoá cục bộ (.vanphong/secret.key); giá trị chỉ được giải mã khi chạy agent.
+// Kho bí mật: mã hoá AES-256-GCM bằng khoá cục bộ (.jvcompany/secret.key); giá trị chỉ được giải mã khi chạy agent.
 // Dùng trong biến môi trường của kết nối / phòng ban: TEN_BIEN=secret:KHOA_BI_MAT
 import crypto from 'crypto';
 import fs from 'fs';
@@ -18,8 +18,8 @@ let cachedKey: Buffer | null = null;
 function masterKey(): Buffer {
   if (cachedKey) return cachedKey;
   const file = KEY_FILE();
-  if (process.env.VANPHONG_SECRET_KEY) {
-    cachedKey = crypto.createHash('sha256').update(process.env.VANPHONG_SECRET_KEY).digest();
+  if (process.env.JVCOMPANY_SECRET_KEY) {
+    cachedKey = crypto.createHash('sha256').update(process.env.JVCOMPANY_SECRET_KEY).digest();
     return cachedKey;
   }
   if (fs.existsSync(file)) {

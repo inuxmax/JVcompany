@@ -73,7 +73,7 @@ export function RecipientPicker({
         <ChevronDown className={clsx('size-3.5 shrink-0 text-muted transition-transform', open && 'rotate-180')} />
       </button>
       {open && (
-        <div role="listbox" className="animate-vp-in absolute bottom-full left-0 z-30 mb-2 max-h-80 w-72 overflow-y-auto rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl">
+        <div role="listbox" className="animate-jv-in absolute bottom-full left-0 z-30 mb-2 max-h-80 w-72 overflow-y-auto rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl">
           {withCeo && (
             <>
               <button

@@ -283,7 +283,7 @@ export default function BuildingView({
 
       {/* Lớp chờ */}
       <div className={clsx('pointer-events-none absolute inset-0 flex items-center justify-center bg-surface transition-opacity duration-500', ready ? 'opacity-0' : 'opacity-100')}>
-        <span className="animate-vp-pulse text-[13px] text-muted">{t('Đang dựng toà nhà…')}</span>
+        <span className="animate-jv-pulse text-[13px] text-muted">{t('Đang dựng toà nhà…')}</span>
       </div>
 
       {/* Nhãn nhân vật (cảnh tầng) */}

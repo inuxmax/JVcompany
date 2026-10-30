@@ -18,9 +18,9 @@ export type Locale = (typeof LOCALES)[number]['code'];
 export type TargetLocale = Exclude<Locale, 'vi'>;
 
 export const DEFAULT_LOCALE: Locale = 'en';
-/** Cookie để máy chủ vẽ đúng ngôn ngữ ngay từ đầu; localStorage là nơi lưu chính (như 'vp-theme'). */
-export const LOCALE_COOKIE = 'vp_lang';
-export const LOCALE_STORAGE = 'vp-lang';
+/** Cookie để máy chủ vẽ đúng ngôn ngữ ngay từ đầu; localStorage là nơi lưu chính (như 'jv-theme'). */
+export const LOCALE_COOKIE = 'jv_lang';
+export const LOCALE_STORAGE = 'jv-lang';
 
 /** Một nhóm bản dịch: câu tiếng Việt gốc → câu dịch theo từng ngôn ngữ. */
 export type Catalog = Record<string, Partial<Record<TargetLocale, string>>>;

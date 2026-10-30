@@ -154,12 +154,12 @@ export async function login(email: string, password: string): Promise<User | nul
 
 // ---------------- Người đang dùng (theo yêu cầu HTTP) ----------------
 
-/** Tài khoản của yêu cầu hiện tại (proxy.ts gắn header x-vp-user sau khi xác thực phiên). null = chưa bật đăng nhập / ngoài yêu cầu. */
+/** Tài khoản của yêu cầu hiện tại (proxy.ts gắn header x-jv-user sau khi xác thực phiên). null = chưa bật đăng nhập / ngoài yêu cầu. */
 export async function currentUser(): Promise<User | null> {
   let uid: string | null = null;
   try {
     const { headers } = await import('next/headers');
-    uid = (await headers()).get('x-vp-user');
+    uid = (await headers()).get('x-jv-user');
   } catch {
     return null;
   }

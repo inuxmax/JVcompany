@@ -104,7 +104,7 @@ async function claudeQuota(p: Provider): Promise<ProviderQuota> {
       return { source: 'Gói Claude', windows: [], note: 'Phiên đăng nhập Claude Code đã hết hạn – chạy Claude Code một lần để tự làm mới, rồi bấm làm mới ở đây.', checkedAt };
     }
   }
-  const source = plan ? `Gói Claude ${plan.charAt(0).toUpperCase()}${plan.slice(1)}` : 'Gói Claude';
+  const source = plan ? `Claude ${plan.charAt(0).toUpperCase()}${plan.slice(1)}` : 'Gói Claude';
   if (!oauth) return { source, windows: [], note: 'Không thấy phiên đăng nhập Claude Code trên máy (mở terminal, chạy claude rồi /login).', checkedAt };
   const r = await getJson('https://api.anthropic.com/api/oauth/usage', { Authorization: `Bearer ${oauth}`, 'anthropic-beta': 'oauth-2025-04-20' });
   if (r.status === 401 || r.status === 403) return { source, windows: [], note: 'Anthropic từ chối phiên đăng nhập (có thể đã hết hạn) – chạy Claude Code một lần rồi bấm làm mới.', checkedAt };

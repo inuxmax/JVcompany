@@ -6,7 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import type { UserRole } from './types';
 
-export const SESSION_COOKIE = 'vp_session';
+export const SESSION_COOKIE = 'jv_session';
 export const SESSION_DAYS = 14;
 
 export interface AuthSnapshotUser {
@@ -22,19 +22,19 @@ export interface AuthSnapshot {
 }
 
 function dataDir(): string {
-  return process.env.VANPHONG_DATA_DIR || path.join(process.cwd(), '.vanphong');
+  return process.env.JVCOMPANY_DATA_DIR || path.join(process.cwd(), '.jvcompany');
 }
 
 /** Tệp ảnh chụp tài khoản – tách theo CSDL để máy chủ thử nghiệm không ảnh hưởng máy chủ thật. */
 export function snapshotFile(): string {
-  const db = (process.env.MONGODB_DB || 'vanphong_ai').replace(/[^A-Za-z0-9_-]/g, '_');
+  const db = (process.env.MONGODB_DB || 'jvcompany').replace(/[^A-Za-z0-9_-]/g, '_');
   return path.join(dataDir(), `auth-${db}.json`);
 }
 
 let keyCache: Buffer | null = null;
 function sessionKey(): Buffer {
   if (keyCache) return keyCache;
-  if (process.env.VANPHONG_SESSION_SECRET) return (keyCache = crypto.createHash('sha256').update(process.env.VANPHONG_SESSION_SECRET).digest());
+  if (process.env.JVCOMPANY_SESSION_SECRET) return (keyCache = crypto.createHash('sha256').update(process.env.JVCOMPANY_SESSION_SECRET).digest());
   const file = path.join(dataDir(), 'session.key');
   try {
     keyCache = Buffer.from(fs.readFileSync(file, 'utf8').trim(), 'base64');

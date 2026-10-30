@@ -6,7 +6,7 @@ Giao diện có 10 ngôn ngữ: English (mặc định cho người mới), Ti�
 
 - **Khoá dịch chính là câu tiếng Việt gốc.** Viết giao diện bằng tiếng Việt như trước, chỉ cần bọc: `t('Dự án mới')`.
   Tiếng Việt không cần từ điển; các ngôn ngữ khác tra trong `lib/i18n/messages/*.ts`.
-- Lựa chọn lưu ở `localStorage['vp-lang']` + cookie `vp_lang`. Layout gốc (`app/layout.tsx`) đọc cookie, đặt `<html lang>`
+- Lựa chọn lưu ở `localStorage['jv-lang']` + cookie `jv_lang`. Layout gốc (`app/layout.tsx`) đọc cookie, đặt `<html lang>`
   và chỉ gửi từ điển của ngôn ngữ đang chọn xuống `I18nProvider`. Đổi ngôn ngữ = lưu + tải lại trang (`changeLocale`).
 - Không có cookie → tiếng Anh (`DEFAULT_LOCALE`).
 
@@ -68,4 +68,4 @@ localizedContent(msg.content, msg.meta)    // tin nhắn hệ thống do máy ch
 | đánh giá agent | agent evals | 智能体评测 | エージェント評価 | 에이전트 평가 | evaluaciones de agentes | évaluations d’agents | Agent-Evaluierungen | การประเมินเอเจนต์ | evaluasi agen |
 | quyền (chỉ đọc / đọc & ghi / toàn quyền) | permission (read-only / read & write / full access) | 权限（只读 / 读写 / 完全控制） | 権限（読み取り専用 / 読み書き / フルアクセス） | 권한(읽기 전용 / 읽기·쓰기 / 전체 권한) | permiso (solo lectura / lectura y escritura / acceso total) | permission (lecture seule / lecture et écriture / accès complet) | Berechtigung (nur lesen / lesen & schreiben / Vollzugriff) | สิทธิ์ (อ่านอย่างเดียว / อ่านและเขียน / สิทธิ์เต็ม) | izin (hanya baca / baca & tulis / akses penuh) |
 
-Giữ nguyên tên sản phẩm / kỹ thuật: Văn Phòng AI, Claude Code, Codex, MCP, API, CLI, token, Telegram, MongoDB, JSON…
+Giữ nguyên tên sản phẩm / kỹ thuật: JVCompany, Claude Code, Codex, MCP, API, CLI, token, Telegram, MongoDB, JSON…

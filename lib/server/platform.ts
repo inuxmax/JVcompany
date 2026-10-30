@@ -202,7 +202,7 @@ export function truncate(text: string, max = 30_000): string {
 }
 
 export function appDataDir(): string {
-  const dir = process.env.VANPHONG_DATA_DIR || path.join(process.cwd(), '.vanphong');
+  const dir = process.env.JVCOMPANY_DATA_DIR || path.join(process.cwd(), '.jvcompany');
   fs.mkdirSync(dir, { recursive: true });
   return dir;
 }

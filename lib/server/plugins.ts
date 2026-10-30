@@ -1,7 +1,7 @@
 // Kho kỹ năng & plugin (giống plugin của Claude Code / Codex): cài kỹ năng dựng sẵn, gói plugin một chạm,
 // và cài từ bên ngoài (npm, npx, GitHub, URL).
 // An toàn: cài từ bên ngoài chạy 2 bước – xem trước ĐÚNG lệnh sẽ chạy → bạn xác nhận → chạy trong thư mục cách ly
-// .vanphong/plugins/<tên> với --ignore-scripts (không chạy mã cài đặt của gói), môi trường không có bí mật.
+// .jvcompany/plugins/<tên> với --ignore-scripts (không chạy mã cài đặt của gói), môi trường không có bí mật.
 // Chỉ người dùng gọi được (không có công cụ agent nào gọi tới đây).
 import crypto from 'crypto';
 import fs from 'fs/promises';
@@ -265,7 +265,7 @@ async function scan(root: string): Promise<Found> {
       return null;
     }
   };
-  const manifest = (await readJson(path.join(root, '.claude-plugin', 'plugin.json'))) ?? (await readJson(path.join(root, 'vanphong-plugin.json'))) ?? (await readJson(path.join(root, 'package.json')));
+  const manifest = (await readJson(path.join(root, '.claude-plugin', 'plugin.json'))) ?? (await readJson(path.join(root, 'jvcompany-plugin.json'))) ?? (await readJson(path.join(root, 'package.json')));
   if (manifest) found.manifest = { name: manifest.name ? String(manifest.name) : undefined, description: manifest.description ? String(manifest.description) : undefined, version: manifest.version ? String(manifest.version) : undefined };
   const mcpJson = await readJson(path.join(root, '.mcp.json'));
   const servers = (mcpJson?.mcpServers ?? (manifest as Record<string, unknown> | null)?.mcpServers) as Record<string, Record<string, unknown>> | undefined;
@@ -294,7 +294,7 @@ async function scan(root: string): Promise<Found> {
     }
   };
   await walk(root, 0);
-  if (commands) found.notes.push(`Có ${commands} lệnh "/" (commands) – Văn Phòng AI chưa dùng loại này.`);
+  if (commands) found.notes.push(`Có ${commands} lệnh "/" (commands) – JVCompany chưa dùng loại này.`);
   if (agents) found.notes.push(`Có ${agents} agent con (agents) – chưa tự tạo phòng ban; bạn có thể tạo phòng tương ứng ở Sơ đồ tổ chức.`);
   return found;
 }
@@ -390,7 +390,7 @@ export async function runExternal(planId: string, opts: { departments?: string[]
     if (plan.kind === 'npm') {
       // Dự án riêng cho thư mục cách ly – npm không đi ngược lên thư mục cha tìm package.json
       await fs.mkdir(plan.dir, { recursive: true });
-      await fs.writeFile(path.join(plan.dir, 'package.json'), JSON.stringify({ name: 'vanphong-plugin-sandbox', private: true }, null, 2));
+      await fs.writeFile(path.join(plan.dir, 'package.json'), JSON.stringify({ name: 'jvcompany-plugin-sandbox', private: true }, null, 2));
     }
     for (const step of plan.exec) {
       log.push(`$ ${show(path.basename(step.cmd).replace(/\.(cmd|exe)$/i, ''), step.args)}`);

@@ -88,7 +88,7 @@ const hermesGateway: GatewayAdapter = {
   async run(r) {
     const { provider, ctx } = r;
     const base = hermesBase(provider);
-    const key = sessionKey(r, `vanphong:${ctx.department._id}`);
+    const key = sessionKey(r, `jvcompany:${ctx.department._id}`);
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -306,7 +306,7 @@ class GatewayClient {
 
   close() {
     try {
-      this.ws?.close(1000, 'vanphong-done');
+      this.ws?.close(1000, 'jvcompany-done');
     } catch {
       /* đã đóng */
     }
@@ -374,7 +374,7 @@ function connectParams(cfg: ReturnType<typeof openclawConfig>, nonce: string, de
   const params: Record<string, unknown> = {
     minProtocol: PROTOCOL_VERSION,
     maxProtocol: PROTOCOL_VERSION,
-    client: { id: cfg.clientId, version: 'vanphong', platform: process.platform, mode: cfg.clientMode },
+    client: { id: cfg.clientId, version: 'jvcompany', platform: process.platform, mode: cfg.clientMode },
     role: cfg.role,
     scopes,
     auth: cfg.token || cfg.password ? { ...(cfg.token ? { token: cfg.token } : {}), ...(cfg.password ? { password: cfg.password } : {}) } : undefined,
@@ -415,7 +415,7 @@ const openclawGateway: GatewayAdapter = {
     const device = await deviceIdentity(provider);
     const timeoutMs = (provider.timeoutSec || 1800) * 1000;
     const agentId = optStr(provider, 'agentId');
-    let key = sessionKey(r, 'vanphong') ?? `vanphong:run:${ctx.task._id}`;
+    let key = sessionKey(r, 'jvcompany') ?? `jvcompany:run:${ctx.task._id}`;
     if (agentId && !key.startsWith('agent:')) key = `agent:${agentId}:${key}`;
     const runKey = `${ctx.task._id}-${ctx.task.attempts}`;
 
@@ -515,7 +515,7 @@ const openclawGateway: GatewayAdapter = {
 // ---------------- HTTP webhook ----------------
 
 function callbackBase(provider: Provider): string {
-  return (optStr(provider, 'callbackBaseUrl') || process.env.VANPHONG_PUBLIC_URL || `http://127.0.0.1:${process.env.PORT || 2501}`).replace(/\/+$/, '');
+  return (optStr(provider, 'callbackBaseUrl') || process.env.JVCOMPANY_PUBLIC_URL || `http://127.0.0.1:${process.env.PORT || 2501}`).replace(/\/+$/, '');
 }
 
 const httpWebhook: GatewayAdapter = {

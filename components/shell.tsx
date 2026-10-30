@@ -167,7 +167,7 @@ function SideLink({
 function SideGroup({ group, pathname, collapsed }: { group: (typeof GROUPS)[number]; pathname: string; collapsed: boolean }) {
   const active = group.items.some((i) => pathname.startsWith(i.href));
   // '' = tự động (mở khi đang ở trang trong nhóm), '1' mở, '0' đóng – nhớ theo trình duyệt
-  const [pref, setPref] = useStored(`vp-nav-group:${group.label}`, '');
+  const [pref, setPref] = useStored(`jv-nav-group:${group.label}`, '');
   const open = pref === '' ? active : pref === '1';
   const [flyout, setFlyout] = useState(false);
   const box = useRef<HTMLDivElement>(null);
@@ -196,7 +196,7 @@ function SideGroup({ group, pathname, collapsed }: { group: (typeof GROUPS)[numb
           <group.icon className="size-[18px]" />
         </button>
         {flyout && (
-          <div className="animate-vp-in absolute top-0 left-full z-50 ml-3 w-56 rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl">
+          <div className="animate-jv-in absolute top-0 left-full z-50 ml-3 w-56 rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl">
             <div className="px-3 pt-1.5 pb-1 text-[11px] font-semibold tracking-wider text-subtle uppercase">{t(group.label)}</div>
             {group.items.map((i) => (
               <Link
@@ -263,7 +263,7 @@ function SideStatus({ collapsed }: { collapsed: boolean }) {
         {!collapsed && <span className="truncate">{text}</span>}
       </button>
       {open && (
-        <div className={clsx('glass animate-vp-in absolute z-50 w-64 rounded-3xl p-4', collapsed ? 'left-full bottom-0 ml-3' : 'left-0 bottom-full mb-2')}>
+        <div className={clsx('glass animate-jv-in absolute z-50 w-64 rounded-3xl p-4', collapsed ? 'left-full bottom-0 ml-3' : 'left-0 bottom-full mb-2')}>
           <div className="mb-3 text-[12px] font-semibold tracking-wider text-subtle uppercase">{t('Hệ thống')}</div>
           <StatusPanel />
         </div>
@@ -272,11 +272,11 @@ function SideStatus({ collapsed }: { collapsed: boolean }) {
   );
 }
 
-/** Thanh menu dọc bên trái (màn hình máy tính). Thu gọn thành cột biểu tượng; bề rộng lấy từ biến --vp-nav-w. */
+/** Thanh menu dọc bên trái (màn hình máy tính). Thu gọn thành cột biểu tượng; bề rộng lấy từ biến --jv-nav-w. */
 function SideNav() {
   const pathname = usePathname();
   const badges = useBadges();
-  const [nav, setNav] = useStored('vp-nav', 'open');
+  const [nav, setNav] = useStored('jv-nav', 'open');
   const collapsed = nav === 'collapsed';
   useEffect(() => {
     document.documentElement.dataset.nav = collapsed ? 'collapsed' : 'open';
@@ -284,7 +284,7 @@ function SideNav() {
   return (
     <aside
       aria-label={t('Điều hướng')}
-      className="glass fixed top-3 bottom-3 left-3 z-40 hidden w-[calc(var(--vp-nav-w)-28px)] flex-col rounded-[28px] transition-[width] duration-200 lg:flex"
+      className="glass fixed top-3 bottom-3 left-3 z-40 hidden w-[calc(var(--jv-nav-w)-28px)] flex-col rounded-[28px] transition-[width] duration-200 lg:flex"
     >
       <div className={clsx('flex items-center gap-2 px-3 pt-3', collapsed ? 'flex-col' : 'justify-between')}>
         <Logo always={!collapsed} compact={collapsed} />
@@ -378,7 +378,7 @@ function subscribeTheme(cb: () => void) {
 
 function readTheme(): ThemeChoice {
   try {
-    return (localStorage.getItem('vp-theme') as ThemeChoice) || 'light';
+    return (localStorage.getItem('jv-theme') as ThemeChoice) || 'light';
   } catch {
     return 'light';
   }
@@ -423,7 +423,7 @@ function useTheme() {
   const choice = useSyncExternalStore(subscribeTheme, readTheme, () => 'light' as ThemeChoice);
   const set = (c: ThemeChoice, origin?: { x: number; y: number }) => {
     try {
-      localStorage.setItem('vp-theme', c);
+      localStorage.setItem('jv-theme', c);
     } catch {
       /* bỏ qua */
     }
@@ -465,12 +465,12 @@ function Logo({ compact, always }: { compact?: boolean; always?: boolean }) {
   return (
     <Link href="/" className="flex shrink-0 items-center gap-2.5 pl-1">
       <span className="relative flex size-9 items-center justify-center rounded-xl bg-fg font-display text-[15px] font-semibold text-bg italic">
-        vp
+        jv
         <span className="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-[3px] bg-accent ring-2 ring-[var(--surface)]" />
       </span>
       {!compact && (
         <span className={clsx('leading-none', always ? 'block' : 'hidden xl:block')}>
-          <span className="block font-display text-[16px] font-semibold tracking-tight">Văn Phòng AI</span> {/* i18n-ignore: tên sản phẩm */}
+          <span className="block font-display text-[16px] font-semibold tracking-tight">JVCompany</span> {/* i18n-ignore: tên sản phẩm */}
           <span className="mt-0.5 block text-[10.5px] tracking-[0.14em] text-subtle uppercase">{t('Công ty AI Agent')}</span>
         </span>
       )}
@@ -537,7 +537,7 @@ function StatusButton() {
         <span className="hidden xl:inline">{active > 0 ? t('{n} agent đang làm', { n: active }) : ok ? t('Sẵn sàng') : t('Kiểm tra')}</span>
       </button>
       {open && (
-        <div className="glass animate-vp-in absolute top-12 right-0 z-50 w-64 rounded-3xl p-4">
+        <div className="glass animate-jv-in absolute top-12 right-0 z-50 w-64 rounded-3xl p-4">
           <div className="mb-3 text-[12px] font-semibold tracking-wider text-subtle uppercase">{t('Hệ thống')}</div>
           <StatusPanel />
         </div>
@@ -633,7 +633,7 @@ function MobileTabs() {
       {more && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-[#1a140e]/40 backdrop-blur-sm" onClick={() => setMore(false)} />
-          <div className="animate-vp-in absolute inset-x-3 bottom-3 rounded-[28px] border border-line bg-surface-solid/95 p-4 shadow-2xl backdrop-blur-2xl">
+          <div className="animate-jv-in absolute inset-x-3 bottom-3 rounded-[28px] border border-line bg-surface-solid/95 p-4 shadow-2xl backdrop-blur-2xl">
             <div className="mb-3 flex items-center justify-between">
               <span className="font-display text-[16px] font-semibold">{tc('nav', 'Thêm')}</span>
               <button type="button" aria-label={t('Đóng')} onClick={() => setMore(false)} className="rounded-full p-1.5 text-muted hover:bg-surface-3">
@@ -697,7 +697,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <TopBar />
-      <main className="min-w-0 flex-1 pb-28 lg:pl-[var(--vp-nav-w)] lg:pb-10">{children}</main>
+      <main className="min-w-0 flex-1 pb-28 lg:pl-[var(--jv-nav-w)] lg:pb-10">{children}</main>
       <SideNav />
       <MobileTabs />
     </div>

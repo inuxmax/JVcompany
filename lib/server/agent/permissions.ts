@@ -27,8 +27,8 @@ const READ_ONLY_CMDS = new Set([
   'get-content', 'gc', 'get-childitem', 'gci', 'select-string', 'sls', 'test-path', 'get-item', 'gi', 'get-location', 'resolve-path', 'measure-object', 'select-object', 'format-list', 'format-table', 'write-output', 'out-string',
 ]);
 const READ_ONLY_GIT = /^(status|log|diff|show|rev-parse|ls-files|blame|describe|shortlog|grep)\b/;
-/** Công cụ tra bản đồ mã của văn phòng (chỉ đọc graph.json): node "<app>/scripts/vp-graph.cjs" … */
-const GRAPH_CLI = path.join(process.cwd(), 'scripts', 'vp-graph.cjs').replace(/\\/g, '/').toLowerCase();
+/** Công cụ tra bản đồ mã của văn phòng (chỉ đọc graph.json): node "<app>/scripts/jv-graph.cjs" … */
+const GRAPH_CLI = path.join(process.cwd(), 'scripts', 'jv-graph.cjs').replace(/\\/g, '/').toLowerCase();
 const isGraphQuery = (part: string) => {
   const m = /^node(?:\.exe)?\s+(?:"([^"]+)"|'([^']+)'|(\S+))/i.exec(part);
   return Boolean(m && (m[1] ?? m[2] ?? m[3]).replace(/\\/g, '/').toLowerCase() === GRAPH_CLI);

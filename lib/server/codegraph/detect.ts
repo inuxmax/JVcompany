@@ -39,7 +39,7 @@ export const LANGUAGE_BY_EXT: Record<string, string> = {
 
 const SKIP_DIRS = new Set([
   'node_modules', '.git', '.next', 'dist', 'build', 'out', 'coverage', '.venv', 'venv', 'env', '__pycache__', 'target',
-  '.turbo', '.cache', '.idea', '.vscode', 'vendor', 'bin', 'obj', '.gradle', '.dart_tool', 'Pods', 'graphify-out', '.vanphong',
+  '.turbo', '.cache', '.idea', '.vscode', 'vendor', 'bin', 'obj', '.gradle', '.dart_tool', 'Pods', 'graphify-out', '.jvcompany', '.vanphong',
 ]);
 
 export const MAX_FILES = 4000;

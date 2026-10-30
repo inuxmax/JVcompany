@@ -1,7 +1,7 @@
-// Ứng dụng desktop Văn Phòng AI (Electron): tự khởi động máy chủ Next.js cục bộ và mở cửa sổ ứng dụng.
+// Ứng dụng desktop JVCompany (Electron): tự khởi động máy chủ Next.js cục bộ và mở cửa sổ ứng dụng.
 // - Chế độ phát triển (mặc định khi chưa đóng gói): chạy `next dev`.
 // - Chế độ sản phẩm (`--prod` hoặc bản đã đóng gói): chạy `next start` (cần `npm run build` trước).
-// - VANPHONG_URL=http://... : chỉ mở cửa sổ tới máy chủ đã chạy sẵn.
+// - JVCOMPANY_URL=http://... : chỉ mở cửa sổ tới máy chủ đã chạy sẵn.
 const { app, BrowserWindow, dialog, ipcMain, shell, Menu } = require('electron');
 const { spawn } = require('child_process');
 const path = require('path');
@@ -66,8 +66,8 @@ function loadEnvFile() {
 }
 
 async function startServer() {
-  if (process.env.VANPHONG_URL) return process.env.VANPHONG_URL.replace(/\/$/, '');
-  const port = await freePort(Number(process.env.VANPHONG_PORT) || 3456);
+  if (process.env.JVCOMPANY_URL) return process.env.JVCOMPANY_URL.replace(/\/$/, '');
+  const port = await freePort(Number(process.env.JVCOMPANY_PORT) || 3456);
   const nextBin = path.join(ROOT, 'node_modules', 'next', 'dist', 'bin', 'next');
   const args = [nextBin, PROD ? 'start' : 'dev', '-H', '127.0.0.1', '-p', String(port)];
   server = spawn(process.execPath, args, {
@@ -76,7 +76,7 @@ async function startServer() {
       ...process.env,
       ...loadEnvFile(),
       ELECTRON_RUN_AS_NODE: '1',
-      VANPHONG_DESKTOP: '1',
+      JVCOMPANY_DESKTOP: '1',
       // Bản dev desktop dùng thư mục build riêng để chạy song song với `npm run dev`.
       ...(PROD ? {} : { NEXT_DIST_DIR: '.next-desktop' }),
     },
@@ -88,7 +88,7 @@ async function startServer() {
   server.on('exit', (code) => {
     server = null;
     if (code && win && !win.isDestroyed()) {
-      dialog.showErrorBox('Văn Phòng AI', `Máy chủ nội bộ đã dừng (mã ${code}). Kiểm tra MongoDB và chạy lại ứng dụng.`);
+      dialog.showErrorBox('JVCompany', `Máy chủ nội bộ đã dừng (mã ${code}). Kiểm tra MongoDB và chạy lại ứng dụng.`);
     }
   });
   const url = `http://127.0.0.1:${port}`;
@@ -97,8 +97,8 @@ async function startServer() {
 }
 
 const SPLASH = `data:text/html;charset=utf-8,${encodeURIComponent(`<!doctype html><html><body style="margin:0;height:100vh;display:flex;align-items:center;justify-content:center;background:#06080d;color:#e8ecf4;font-family:'Segoe UI',system-ui,sans-serif">
-<div style="text-align:center"><div style="width:64px;height:64px;margin:0 auto 18px;border-radius:18px;background:linear-gradient(135deg,#38BDF8,#6EE7B7,#E9A568);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:22px;color:#06080d">VP</div>
-<div style="font-size:20px;font-weight:600">Văn Phòng AI</div><div style="margin-top:8px;color:#9aa4b8;font-size:13px">Đang khởi động văn phòng…</div></div></body></html>`)}`;
+<div style="text-align:center"><div style="width:64px;height:64px;margin:0 auto 18px;border-radius:18px;background:linear-gradient(135deg,#38BDF8,#6EE7B7,#E9A568);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:22px;color:#06080d">JV</div>
+<div style="font-size:20px;font-weight:600">JVCompany</div><div style="margin-top:8px;color:#9aa4b8;font-size:13px">Đang khởi động văn phòng…</div></div></body></html>`)}`;
 
 async function createWindow() {
   win = new BrowserWindow({
@@ -107,7 +107,7 @@ async function createWindow() {
     minWidth: 960,
     minHeight: 640,
     backgroundColor: '#06080d',
-    title: 'Văn Phòng AI',
+    title: 'JVCompany',
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
@@ -131,19 +131,19 @@ async function createWindow() {
       }
     });
     await win.loadURL(url);
-    if (process.env.VANPHONG_SMOKE) {
+    if (process.env.JVCOMPANY_SMOKE) {
       // Kiểm tra nhanh: xác nhận cầu nối desktop hoạt động rồi thoát.
-      const bridge = await win.webContents.executeJavaScript('JSON.stringify({desktop: !!window.vanphong?.isDesktop, title: document.title})');
+      const bridge = await win.webContents.executeJavaScript('JSON.stringify({desktop: !!window.jvcompany?.isDesktop, title: document.title})');
       console.log(`SMOKE_OK ${url} ${bridge}`);
       app.quit();
     }
   } catch (err) {
-    dialog.showErrorBox('Văn Phòng AI', `Không khởi động được: ${err.message}`);
+    dialog.showErrorBox('JVCompany', `Không khởi động được: ${err.message}`);
     app.quit();
   }
 }
 
-ipcMain.handle('vp:pick-folder', async (_e, defaultPath) => {
+ipcMain.handle('jv:pick-folder', async (_e, defaultPath) => {
   const res = await dialog.showOpenDialog(win, {
     title: 'Chọn thư mục dự án',
     defaultPath: typeof defaultPath === 'string' && defaultPath ? defaultPath : app.getPath('documents'),
@@ -152,11 +152,11 @@ ipcMain.handle('vp:pick-folder', async (_e, defaultPath) => {
   return res.canceled || !res.filePaths.length ? null : res.filePaths[0];
 });
 
-ipcMain.handle('vp:open-external', async (_e, url) => {
+ipcMain.handle('jv:open-external', async (_e, url) => {
   if (typeof url === 'string' && /^https?:\/\//i.test(url)) await shell.openExternal(url);
 });
 
-ipcMain.handle('vp:reveal', async (_e, p) => {
+ipcMain.handle('jv:reveal', async (_e, p) => {
   if (typeof p === 'string' && p) await shell.openPath(p);
 });
 

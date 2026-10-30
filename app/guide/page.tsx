@@ -140,7 +140,7 @@ const SECTIONS: Section[] = [
     id: 'tasks',
     icon: ListChecks,
     title: m('Nhiệm vụ'),
-    lead: m('Mọi nhiệm vụ của các phòng trên tất cả dự án – mỗi việc có mã VP-n, mức ưu tiên và trạng thái.'),
+    lead: m('Mọi nhiệm vụ của các phòng trên tất cả dự án – mỗi việc có mã JV-n, mức ưu tiên và trạng thái.'),
     steps: [
       m('Lọc theo trạng thái, phòng ban hoặc dự án.'),
       m('Mở một nhiệm vụ để xem các lượt chạy (token, chi phí, lỗi), bình luận – agent được đánh thức khi có bình luận mới – và tài liệu có phiên bản.'),
@@ -238,7 +238,7 @@ const FAQ: { q: string; a: string }[] = [
   { q: m('Chạy được bao nhiêu dự án cùng lúc?'), a: m('Bằng số tầng đang bật (mặc định 5). Dự án thêm vào sẽ xếp hàng và tự lên tầng khi có tầng trống.') },
   {
     q: m('Dữ liệu lưu ở đâu?'),
-    a: m('Trong MongoDB trên máy bạn. Bí mật (API key, token) được mã hoá bằng khoá trong thư mục .vanphong – hãy sao lưu thư mục này cùng dữ liệu.'),
+    a: m('Trong MongoDB trên máy bạn. Bí mật (API key, token) được mã hoá bằng khoá trong thư mục .jvcompany – hãy sao lưu thư mục này cùng dữ liệu.'),
   },
   {
     q: m('Làm sao cập nhật ảnh trong trang này?'),
@@ -327,7 +327,7 @@ function Lightbox({ shots, index, onClose, onIndex }: { shots: Shot[]; index: nu
         </span>
       </div>
       <div className="relative flex min-h-0 flex-1 items-center justify-center px-3 pb-6 sm:px-16" onClick={(e) => e.stopPropagation()}>
-        <Image key={s.src} src={s.src} alt={t(s.caption)} width={1440} height={900} unoptimized loading="eager" className="animate-vp-in h-auto max-h-full w-auto max-w-full rounded-xl shadow-2xl" />
+        <Image key={s.src} src={s.src} alt={t(s.caption)} width={1440} height={900} unoptimized loading="eager" className="animate-jv-in h-auto max-h-full w-auto max-w-full rounded-xl shadow-2xl" />
         <button type="button" aria-label={t('Ảnh trước')} onClick={() => go(-1)} className="absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-white/10 p-2.5 text-white hover:bg-white/20 sm:left-4">
           <ChevronLeft className="size-5" />
         </button>
@@ -443,7 +443,7 @@ export default function GuidePage() {
       <PageHeader
         eyebrow={t('Giới thiệu & hướng dẫn')}
         title={t('Hướng dẫn sử dụng')}
-        description={t('Văn Phòng AI là một công ty phần mềm chạy bằng các AI agent. Trang này giới thiệu các tính năng và cách dùng từng phần – kèm ảnh chụp màn hình thật.')}
+        description={t('JVCompany là một công ty phần mềm chạy bằng các AI agent. Trang này giới thiệu các tính năng và cách dùng từng phần – kèm ảnh chụp màn hình thật.')}
       />
       <div className="grid gap-8 xl:grid-cols-[230px_minmax(0,1fr)]">
         <aside className="hidden xl:block">
@@ -468,7 +468,7 @@ export default function GuidePage() {
         <div className="min-w-0 space-y-6">
           <section id="intro" className="scroll-mt-6">
             <Card className="p-5 sm:p-7">
-              <h2 className="font-display text-[24px] font-semibold tracking-tight">{t('Văn Phòng AI là gì?')}</h2>
+              <h2 className="font-display text-[24px] font-semibold tracking-tight">{t('JVCompany là gì?')}</h2>
               <p className="mt-3 max-w-3xl text-[14.5px] leading-relaxed text-muted">
                 {t(
                   'Mỗi phòng ban là một AI agent chuyên môn – Giám đốc, Quản lý dự án, Thiết kế, Kỹ sư, Kiểm thử… Bạn là chủ công ty: giao việc bằng một câu chat, các phòng tự chia việc, làm trực tiếp trong thư mục dự án trên máy bạn và chỉ hỏi bạn khi cần quyết định.',

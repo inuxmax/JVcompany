@@ -233,7 +233,7 @@ export function TowerScene({
   const rideClock = useRef({ key: '', t0: 0 });
   const sign = useMemo(
     // i18n-ignore – tên thương hiệu trên bảng hiệu giữ nguyên
-    () => signTexture((companyName || 'Văn Phòng AI').toUpperCase(), t('Toà nhà AI Agent · 5 tầng làm việc'), theme.dark),
+    () => signTexture((companyName || 'JVCompany').toUpperCase(), t('Toà nhà AI Agent · 5 tầng làm việc'), theme.dark),
     [theme.dark, companyName],
   );
   const shaftX = X0 - 1.45;

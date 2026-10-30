@@ -110,7 +110,7 @@ export default function DashboardPage() {
   return (
     <Page wide>
       <PageHeader
-        eyebrow={<span suppressHydrationWarning>{date || 'Văn Phòng AI' /* i18n-ignore */}</span>}
+        eyebrow={<span suppressHydrationWarning>{date || 'JVCompany' /* i18n-ignore */}</span>}
         title={
           <>
             {hello},{' '}

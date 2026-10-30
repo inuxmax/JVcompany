@@ -59,8 +59,8 @@ function planSummary(plan: Plan): string {
 
 /** Ghi chú của plugin (máy chủ lưu bằng tiếng Việt): câu cố định tra từ điển, câu có số đếm dựng lại theo ngôn ngữ. */
 function noteText(note: string): string {
-  const commands = /^Có (\d+) lệnh "\/" \(commands\) – Văn Phòng AI chưa dùng loại này\.$/.exec(note);
-  if (commands) return t('Có {n} lệnh "/" (commands) – Văn Phòng AI chưa dùng loại này.', { n: Number(commands[1]) });
+  const commands = /^Có (\d+) lệnh "\/" \(commands\) – JVCompany chưa dùng loại này\.$/.exec(note);
+  if (commands) return t('Có {n} lệnh "/" (commands) – JVCompany chưa dùng loại này.', { n: Number(commands[1]) });
   const agents = /^Có (\d+) agent con \(agents\) – chưa tự tạo phòng ban; bạn có thể tạo phòng tương ứng ở Sơ đồ tổ chức\.$/.exec(note);
   if (agents) return t('Có {n} agent con (agents) – chưa tự tạo phòng ban; bạn có thể tạo phòng tương ứng ở Sơ đồ tổ chức.', { n: Number(agents[1]) });
   return t(note);
@@ -430,7 +430,7 @@ function External({ departments }: { departments: Department[] }) {
       title: t('Chạy lệnh cài?'),
       message: plan.commands.length ? (
         <span className="block space-y-1">
-          <span className="block">{t('Văn Phòng AI sẽ chạy đúng lệnh sau trên máy bạn:')}</span>
+          <span className="block">{t('JVCompany sẽ chạy đúng lệnh sau trên máy bạn:')}</span>
           {plan.commands.map((c) => (
             <code key={c} className="block rounded-lg bg-surface-3 px-2 py-1 font-mono text-[12px] break-all">
               $ {c}
@@ -544,7 +544,7 @@ function External({ departments }: { departments: Department[] }) {
           {t('Cài an toàn')}
         </div>
         <p>{t('Luôn xem trước: bạn thấy đúng lệnh sẽ chạy và phải bấm xác nhận. Agent không tự cài được plugin.')}</p>
-        <p>{t('npm: tải vào thư mục cách ly .vanphong/plugins với --ignore-scripts – không chạy mã cài đặt của gói, không truyền khoá bí mật của máy chủ.')}</p>
+        <p>{t('npm: tải vào thư mục cách ly .jvcompany/plugins với --ignore-scripts – không chạy mã cài đặt của gói, không truyền khoá bí mật của máy chủ.')}</p>
         <p>{t('GitHub: git clone --depth 1, chỉ đọc tệp SKILL.md, .claude-plugin/plugin.json, .mcp.json.')}</p>
         <p>{t('npx / máy chủ MCP của plugin: thêm ở trạng thái tắt, mọi thao tác "Hỏi trước" – bạn xem lại ở Kết nối dịch vụ rồi mới bật.')}</p>
       </Card>

@@ -47,7 +47,7 @@ export function UserMenu({ placement = 'down' }: { placement?: 'down' | 'up' }) 
         {u.name.slice(0, 1).toUpperCase()}
       </button>
       {open && (
-        <div className={`animate-vp-in absolute z-50 w-64 rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl ${placement === 'up' ? 'bottom-full left-0 mb-2' : 'top-12 right-0'}`}>
+        <div className={`animate-jv-in absolute z-50 w-64 rounded-2xl border border-line bg-surface-solid p-1.5 shadow-xl ${placement === 'up' ? 'bottom-full left-0 mb-2' : 'top-12 right-0'}`}>
           <div className="px-3 py-2">
             <div className="truncate text-[14px] font-semibold">{u.name}</div>
             <div className="truncate text-[12px] text-muted">{u.email}</div>

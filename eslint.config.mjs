@@ -14,7 +14,7 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Thư mục build/dữ liệu cục bộ khác
     ".next-*/**",
-    ".vanphong/**",
+    ".jvcompany/**",
     "dist-desktop/**",
   ]),
   {

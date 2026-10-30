@@ -29,7 +29,7 @@ export function tl(locale: Locale, key: string, vars?: Vars): string {
   return translate(dictionary(locale), locale, key, vars);
 }
 
-/** Ngôn ngữ của yêu cầu hiện tại (cookie vp_lang), mặc định tiếng Anh. Dùng trong Server Component / route handler. */
+/** Ngôn ngữ của yêu cầu hiện tại (cookie jv_lang), mặc định tiếng Anh. Dùng trong Server Component / route handler. */
 export async function requestLocale(): Promise<Locale> {
   try {
     const v = (await cookies()).get(LOCALE_COOKIE)?.value;

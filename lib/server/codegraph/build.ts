@@ -343,7 +343,7 @@ export function buildGraph(root: string, extractions: Map<string, FileExtraction
   const extracted = links.filter((l) => l.confidence === 'EXTRACTED').length;
   const graph: CodeGraph = {
     schemaVersion: 1,
-    generator: 'vanphong-codegraph',
+    generator: 'jvcompany-codegraph',
     root,
     builtAt: new Date().toISOString(),
     nodes: [...nodes.values()],

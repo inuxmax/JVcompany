@@ -8,7 +8,7 @@ export const GET = route(async (req: Request) => {
   return new Response(JSON.stringify(pkg, null, 2), {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Content-Disposition': `attachment; filename="cong-ty-${new Date().toISOString().slice(0, 10)}.vanphong.json"`,
+      'Content-Disposition': `attachment; filename="cong-ty-${new Date().toISOString().slice(0, 10)}.jvcompany.json"`,
     },
   });
 });

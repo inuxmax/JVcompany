@@ -310,11 +310,11 @@ function ReadView({ bundle, departmentName, onChange }: { bundle: Bundle; depart
     setLocated((prev) => (JSON.stringify(prev) === JSON.stringify(found) ? prev : found));
     if (!reg) return;
     const H = (globalThis as unknown as { Highlight: HighlightCtor }).Highlight;
-    reg.set('vp-doc', new H(...all));
-    reg.set('vp-doc-active', new H(...act));
+    reg.set('jv-doc', new H(...all));
+    reg.set('jv-doc-active', new H(...act));
     return () => {
-      reg.delete('vp-doc');
-      reg.delete('vp-doc-active');
+      reg.delete('jv-doc');
+      reg.delete('jv-doc-active');
     };
   }, [threads, active, doc.body]);
 
@@ -367,13 +367,13 @@ function ReadView({ bundle, departmentName, onChange }: { bundle: Bundle; depart
   return (
     <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_300px]">
       <div className="relative min-w-0">
-        <div ref={box} onMouseUp={onMouseUp} className="vp-doc rounded-2xl border border-line bg-surface p-4 sm:p-5">
+        <div ref={box} onMouseUp={onMouseUp} className="jv-doc rounded-2xl border border-line bg-surface p-4 sm:p-5">
           {doc.body.trim() ? <Markdown>{doc.body}</Markdown> : <p className="text-[13px] text-muted">{t('Tài liệu trống.')}</p>}
         </div>
         {draft?.pos && draft.anchor && (
           <button
             type="button"
-            className="animate-vp-in absolute z-10 flex -translate-x-1/2 -translate-y-[calc(100%+6px)] items-center gap-1.5 rounded-full bg-fg px-3 py-1.5 text-[12px] font-medium text-bg shadow-lg"
+            className="animate-jv-in absolute z-10 flex -translate-x-1/2 -translate-y-[calc(100%+6px)] items-center gap-1.5 rounded-full bg-fg px-3 py-1.5 text-[12px] font-medium text-bg shadow-lg"
             style={{ left: draft.pos.x, top: draft.pos.y }}
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => {

@@ -83,7 +83,7 @@ export const geminiAdapter: CliAdapter = {
         ...(opt(provider, 'sandbox') ? ['--sandbox'] : []),
         ...(provider.extraArgs ?? []),
         '--prompt',
-        resume && ctx.task.round === 0 ? 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối vp-result.' : 'Làm theo toàn bộ yêu cầu ở trên.',
+        resume && ctx.task.round === 0 ? 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối jv-result.' : 'Làm theo toàn bộ yêu cầu ở trên.',
       ],
       input: resume && ctx.task.round === 0 ? '' : prompt,
       env: { TERM: 'xterm-256color', COLORTERM: 'truecolor', NO_BROWSER: '1' },

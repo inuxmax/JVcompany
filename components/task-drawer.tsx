@@ -72,7 +72,7 @@ function ManualRelay({ task }: { task: Task }) {
       <ol className="mb-3 list-decimal space-y-1 pl-5 text-[13px] text-muted">
         <li>{t('Sao chép prompt chuẩn bên dưới.')}</li>
         <li>{t('Dán vào ChatGPT / Claude.ai / Gemini / Grok (gói đăng ký của bạn).')}</li>
-        <li>{t('Sao chép toàn bộ câu trả lời (kèm khối {block}) và dán vào ô cuối.', { block: 'vp-result' })}</li>
+        <li>{t('Sao chép toàn bộ câu trả lời (kèm khối {block}) và dán vào ô cuối.', { block: 'jv-result' })}</li>
       </ol>
       <div className="mb-2 flex flex-wrap gap-2">
         <Button variant="primary" size="sm" onClick={copy} icon={<Clipboard className="size-3.5" />}>

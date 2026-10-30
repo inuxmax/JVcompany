@@ -1,5 +1,5 @@
 {
-  "name": "vanphong3d",
+  "name": "jvcompany",
   "version": "2.0.0",
   "private": true,
   "scripts": {
@@ -46,6 +46,6 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "description": "Văn Phòng AI – công ty phần mềm vận hành bởi các AI Agent",
+  "description": "JVCompany – công ty phần mềm vận hành bởi các AI Agent",
   "main": "desktop/main.cjs"
 }

@@ -55,7 +55,7 @@ async function discover(resource: string): Promise<{ issuer: string; meta: Recor
     const res = await fetch(resource, {
       method: 'POST',
       headers: { 'content-type': 'application/json', accept: 'application/json, text/event-stream' },
-      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'van-phong-ai', version: '2.0.0' } } }),
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'jvcompany', version: '2.0.0' } } }),
       signal: AbortSignal.timeout(15_000),
     });
     const hdr = res.headers.get('www-authenticate') ?? '';
@@ -102,7 +102,7 @@ export async function startOAuth(connectionId: string, redirectUri: string): Pro
       method: 'POST',
       headers: { 'content-type': 'application/json', accept: 'application/json' },
       body: JSON.stringify({
-        client_name: 'Văn Phòng AI',
+        client_name: 'JVCompany',
         redirect_uris: [redirectUri],
         grant_types: ['authorization_code', 'refresh_token'],
         response_types: ['code'],

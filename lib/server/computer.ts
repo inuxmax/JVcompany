@@ -24,13 +24,13 @@ const PS_NATIVE = `
 Add-Type -AssemblyName System.Windows.Forms,System.Drawing
 Add-Type @"
 using System;using System.Runtime.InteropServices;
-public class VpNative{
+public class JvNative{
 [DllImport("user32.dll")]public static extern bool SetProcessDPIAware();
 [DllImport("user32.dll")]public static extern bool SetCursorPos(int x,int y);
 [DllImport("user32.dll")]public static extern void mouse_event(uint f,uint dx,uint dy,uint d,UIntPtr e);
 }
 "@
-[VpNative]::SetProcessDPIAware() | Out-Null
+[JvNative]::SetProcessDPIAware() | Out-Null
 `;
 
 async function ps(script: string, env: Record<string, string> = {}) {
@@ -62,8 +62,8 @@ async function macPermission(kind: 'screen' | 'accessibility'): Promise<void> {
   if (r.stdout.trim() === 'true') return;
   throw new Error(
     kind === 'screen'
-      ? 'macOS chưa cấp quyền Ghi màn hình (Screen Recording) cho ứng dụng chạy Văn Phòng AI (Terminal / Electron). Bật trong Cài đặt hệ thống → Quyền riêng tư & bảo mật → Ghi màn hình, rồi khởi động lại ứng dụng.'
-      : 'macOS chưa cấp quyền Trợ năng (Accessibility) cho ứng dụng chạy Văn Phòng AI – không điều khiển được chuột/bàn phím. Bật trong Cài đặt hệ thống → Quyền riêng tư & bảo mật → Trợ năng.',
+      ? 'macOS chưa cấp quyền Ghi màn hình (Screen Recording) cho ứng dụng chạy JVCompany (Terminal / Electron). Bật trong Cài đặt hệ thống → Quyền riêng tư & bảo mật → Ghi màn hình, rồi khởi động lại ứng dụng.'
+      : 'macOS chưa cấp quyền Trợ năng (Accessibility) cho ứng dụng chạy JVCompany – không điều khiển được chuột/bàn phím. Bật trong Cài đặt hệ thống → Quyền riêng tư & bảo mật → Trợ năng.',
   );
 }
 
@@ -89,7 +89,7 @@ export interface Screenshot {
 }
 
 export async function screenshot(): Promise<Screenshot> {
-  const file = path.join(os.tmpdir(), `vp-shot-${Date.now()}.png`);
+  const file = path.join(os.tmpdir(), `jv-shot-${Date.now()}.png`);
   try {
     if (IS_WIN) {
       const out = await ps(
@@ -104,9 +104,9 @@ $o=New-Object System.Drawing.Bitmap $w,$h
 $g2=[System.Drawing.Graphics]::FromImage($o)
 $g2.InterpolationMode='HighQualityBicubic'
 $g2.DrawImage($bmp,0,0,$w,$h)
-$o.Save($env:VP_OUT,[System.Drawing.Imaging.ImageFormat]::Png)
+$o.Save($env:JV_OUT,[System.Drawing.Imaging.ImageFormat]::Png)
 Write-Output "$($b.Left),$($b.Top),$($b.Width),$($b.Height),$w,$h"`,
-        { VP_OUT: file },
+        { JV_OUT: file },
       );
       const [left, top, W, , w, h] = out.split(/\r?\n/).pop()!.split(',').map(Number);
       g.__vpScreen = { left, top, factor: W / w, width: w, height: h };
@@ -170,8 +170,8 @@ export async function mouseClick(x: number, y: number, button: 'left' | 'right' 
   const [sx, sy] = toScreen(x, y);
   if (IS_WIN) {
     const flags = { left: [0x02, 0x04], right: [0x08, 0x10], middle: [0x20, 0x40] }[button];
-    const once = `[VpNative]::mouse_event(${flags[0]},0,0,0,[UIntPtr]::Zero);[VpNative]::mouse_event(${flags[1]},0,0,0,[UIntPtr]::Zero);`;
-    await ps(`${PS_NATIVE}[VpNative]::SetCursorPos(${sx},${sy})|Out-Null;Start-Sleep -Milliseconds 60;${once}${double ? `Start-Sleep -Milliseconds 80;${once}` : ''}`);
+    const once = `[JvNative]::mouse_event(${flags[0]},0,0,0,[UIntPtr]::Zero);[JvNative]::mouse_event(${flags[1]},0,0,0,[UIntPtr]::Zero);`;
+    await ps(`${PS_NATIVE}[JvNative]::SetCursorPos(${sx},${sy})|Out-Null;Start-Sleep -Milliseconds 60;${once}${double ? `Start-Sleep -Milliseconds 80;${once}` : ''}`);
   } else if (IS_MAC) {
     await macPermission('accessibility');
     const [downEv, upEv, btn] =
@@ -195,8 +195,8 @@ function sendKeysEscape(text: string): string {
 
 export async function typeText(text: string) {
   if (IS_WIN) {
-    await ps(`Add-Type -AssemblyName System.Windows.Forms;[System.Windows.Forms.SendKeys]::SendWait($env:VP_TEXT)`, {
-      VP_TEXT: sendKeysEscape(text),
+    await ps(`Add-Type -AssemblyName System.Windows.Forms;[System.Windows.Forms.SendKeys]::SendWait($env:JV_TEXT)`, {
+      JV_TEXT: sendKeysEscape(text),
     });
   } else if (IS_MAC) {
     await macPermission('accessibility');
@@ -230,8 +230,8 @@ export async function pressKeys(combo: string) {
     let k = WIN_KEYS[key] ?? (/^f\d{1,2}$/.test(key) ? `{${key.toUpperCase()}}` : key.length === 1 ? sendKeysEscape(key) : null);
     if (!k) throw new Error(`Phím không hỗ trợ: ${key}`);
     if (mods.length && k.length === 1) k = k.toLowerCase();
-    await ps(`Add-Type -AssemblyName System.Windows.Forms;[System.Windows.Forms.SendKeys]::SendWait($env:VP_KEYS)`, {
-      VP_KEYS: mods.map((m) => modMap[m]).join('') + k,
+    await ps(`Add-Type -AssemblyName System.Windows.Forms;[System.Windows.Forms.SendKeys]::SendWait($env:JV_KEYS)`, {
+      JV_KEYS: mods.map((m) => modMap[m]).join('') + k,
     });
   } else if (IS_MAC) {
     await macPermission('accessibility');
@@ -253,7 +253,7 @@ export async function pressKeys(combo: string) {
 export async function openTarget(target: string) {
   if (!target.trim()) throw new LocalizedError(m('Thiếu đích cần mở'));
   if (IS_WIN) {
-    await ps('Start-Process -FilePath $env:VP_TARGET', { VP_TARGET: target });
+    await ps('Start-Process -FilePath $env:JV_TARGET', { JV_TARGET: target });
   } else if (IS_MAC) {
     const isApp = !/^[a-z]+:\/\//i.test(target) && !target.includes('/') && !target.includes('.');
     const r = await runProcess('open', isApp ? ['-a', target] : [target], { timeoutMs: 20_000, raw: true });

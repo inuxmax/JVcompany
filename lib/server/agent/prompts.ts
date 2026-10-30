@@ -34,7 +34,7 @@ function orgChart(ctx: AgentContext): string {
     ctx.allowDelegation && targets.length
       ? `Bạn có thể giao việc cho: ${targets.map((d) => `\`${d._id}\` (${d.name})`).join(', ')}.`
       : 'Trong nhiệm vụ này bạn KHÔNG giao việc cho phòng khác – hãy tự hoàn thành.';
-  return `# Văn Phòng AI – cơ cấu tổ chức
+  return `# JVCompany – cơ cấu tổ chức
 Bạn là **${ctx.department.name}** (id: \`${ctx.department._id}\`) – ${ctx.department.title}.
 ${lines.join('\n')}
 
@@ -78,9 +78,9 @@ function protocolRules(ctx: AgentContext, mode: PromptMode): string {
   "files": [{"path": "đường/dẫn/tương-đối.ext", "content": "nội dung đầy đủ của tệp"}]`
       : '';
   return `# Cách nộp kết quả (BẮT BUỘC)
-Làm xong nhiệm vụ, KẾT THÚC câu trả lời bằng đúng MỘT khối JSON có rào \`\`\`vp-result như sau:
+Làm xong nhiệm vụ, KẾT THÚC câu trả lời bằng đúng MỘT khối JSON có rào \`\`\`jv-result như sau:
 
-\`\`\`vp-result
+\`\`\`jv-result
 {
   "summary": "Tóm tắt 3-10 dòng: đã làm gì, kết quả, vấn đề còn lại",
   "decision": ${needsDecision ? '"approve" hoặc "reject" (BẮT BUỘC)' : 'null'},
@@ -419,7 +419,7 @@ function tryJson(raw: string): Record<string, unknown> | null {
 export function parseProtocol(text: string): ProtocolResult {
   const empty: ProtocolResult = { summary: '', decision: null, delegate: [], artifacts: [], files: [], extras: emptyExtras(), found: false };
   let obj: Record<string, unknown> | null = null;
-  const fence = text.lastIndexOf('```vp-result');
+  const fence = text.lastIndexOf('```jv-result');
   if (fence >= 0) {
     const start = text.indexOf('\n', fence);
     // Nội dung JSON có thể chứa ``` (mã nguồn trong artifact) → thử rào đóng cuối cùng trước, rồi rào gần nhất.
@@ -471,8 +471,8 @@ export function parseProtocol(text: string): ProtocolResult {
   };
 }
 
-/** Bỏ khối vp-result khỏi văn bản hiển thị. */
+/** Bỏ khối jv-result khỏi văn bản hiển thị. */
 export function stripProtocol(text: string): string {
-  const i = text.lastIndexOf('```vp-result');
+  const i = text.lastIndexOf('```jv-result');
   return (i >= 0 ? text.slice(0, i) : text).trim();
 }

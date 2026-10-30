@@ -9,7 +9,7 @@ function permArgs(level: PermissionLevel): string[] {
   switch (level) {
     case 'read':
       // Không dùng --permission-mode plan: ở chế độ đó Claude Code ghi kế hoạch ra tệp riêng và trả về bản tóm tắt,
-      // làm mất khối vp-result (danh sách giao việc). Chỉ đọc = cấm công cụ sửa tệp, chỉ cho lệnh đọc.
+      // làm mất khối jv-result (danh sách giao việc). Chỉ đọc = cấm công cụ sửa tệp, chỉ cho lệnh đọc.
       return [
         '--permission-mode',
         'default',
@@ -124,7 +124,7 @@ export const claudeAdapter: CliAdapter = {
         ...(ctx.mcpArgs ?? []),
         ...(provider.extraArgs ?? []),
       ],
-      input: resume && ctx.task.round === 0 ? 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối vp-result.' : prompt,
+      input: resume && ctx.task.round === 0 ? 'Tiếp tục nhiệm vụ từ chỗ đã dừng và hoàn tất. Nhớ kết thúc bằng khối jv-result.' : prompt,
       env: opt(provider, 'ignoreHostApiKey') && provider.authMode !== 'api_key' ? { ANTHROPIC_API_KEY: undefined, ANTHROPIC_AUTH_TOKEN: undefined } : undefined,
     };
   },

@@ -1,0 +1,38 @@
+# Đóng gói ứng dụng desktop: npm run desktop:build
+# Yêu cầu: đã chạy `npm run build`; máy đích cần MongoDB (hoặc đặt MONGODB_URI tới MongoDB Atlas trong .env.local cạnh ứng dụng).
+appId: ai.vanphong.desktop
+productName: VanPhongAI
+copyright: Văn Phòng AI
+directories:
+  output: dist-desktop
+# Next.js cần đọc tệp thật trên đĩa khi chạy `next start`.
+asar: false
+files:
+  - desktop/**/*
+  - app/**/*
+  - components/**/*
+  - lib/**/*
+  - public/**/*
+  - .next/**/*
+  - '!.next/cache/**/*'
+  - '!.next/dev/**/*'
+  - next.config.ts
+  - instrumentation.ts
+  - proxy.ts
+  - postcss.config.mjs
+  - tsconfig.json
+  - package.json
+  - .env.example
+extraMetadata:
+  main: desktop/main.cjs
+win:
+  target: nsis
+mac:
+  target: dmg
+  category: public.app-category.developer-tools
+linux:
+  target: AppImage
+  category: Development
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true

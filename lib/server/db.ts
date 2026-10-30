@@ -342,15 +342,22 @@ async function mongo(): Promise<MongoClient> {
   return state.connecting;
 }
 
-/** Tên CSDL gốc của bản cũ (Văn Phòng AI). */
+/** Tên CSDL gốc của bản cũ (Văn Phòng AI) và tên mặc định thay thế nó. */
 const LEGACY_DB = 'vanphong_ai';
+const SUCCESSOR_DB = 'jvcompany';
+/** Dấu trong meta của CSDL cũ: đã chép một lần – xoá CSDL mới để làm lại từ đầu thì không bị chép đè nữa. */
+const LEGACY_MARK = 'copiedToJvcompany';
 
-/** Lần đầu chạy dưới tên JVCompany: CSDL mới còn trống mà CSDL cũ (vanphong_ai, vanphong_ai__<mã>) có dữ liệu → chép
- *  từng collection sang tên mới. CSDL cũ giữ nguyên; công ty nào đã có dữ liệu ở tên mới thì bỏ qua. */
+/** Lần đầu chạy dưới tên JVCompany với CSDL mặc định "jvcompany": chép CSDL cũ (vanphong_ai, vanphong_ai__<mã>) sang tên
+ *  mới, đúng một lần. CSDL cũ giữ nguyên; công ty nào đã có dữ liệu ở tên mới thì bỏ qua. Đặt MONGODB_DB tên khác → CSDL
+ *  mới tinh (có màn hình thiết lập ban đầu). */
 async function copyLegacyDatabases(client: MongoClient) {
-  if (MONGODB_DB === LEGACY_DB) return;
+  if (MONGODB_DB !== SUCCESSOR_DB) return;
   const { databases } = await client.db().admin().listDatabases({ nameOnly: true });
   const names = new Set(databases.map((d) => d.name));
+  if (!names.has(LEGACY_DB)) return;
+  const mark = client.db(LEGACY_DB).collection<{ _id: string; value: unknown }>('meta');
+  if (await mark.findOne({ _id: LEGACY_MARK })) return;
   for (const legacy of names) {
     if (legacy !== LEGACY_DB && !legacy.startsWith(`${LEGACY_DB}__`)) continue;
     const target = `${MONGODB_DB}${legacy.slice(LEGACY_DB.length)}`.slice(0, 63);
@@ -372,6 +379,7 @@ async function copyLegacyDatabases(client: MongoClient) {
     await renameLegacyBrand(to);
     console.log(`[jvcompany] Đã chép CSDL cũ ${legacy} → ${target} (${cols.length} collection).`);
   }
+  await mark.updateOne({ _id: LEGACY_MARK }, { $set: { value: { at: now(), to: MONGODB_DB } } }, { upsert: true });
 }
 
 /** Trong bản chép: tên công ty mặc định và kỹ năng có sẵn của bản cũ → tên JVCompany. */

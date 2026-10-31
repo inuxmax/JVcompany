@@ -1,0 +1,38 @@
+{
+  "name": "create-jvcompany",
+  "version": "1.0.0",
+  "description": "Create a new JVCompany – an open-source AI agent software company (Claude Code, Codex, Gemini CLI) in a 3D office – with one command.",
+  "type": "module",
+  "bin": {
+    "create-jvcompany": "index.mjs"
+  },
+  "files": [
+    "index.mjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "jvcompany",
+    "create",
+    "scaffold",
+    "cli",
+    "ai-agents",
+    "multi-agent",
+    "claude-code",
+    "codex",
+    "gemini-cli",
+    "self-hosted"
+  ],
+  "homepage": "https://inuxmax.github.io/JVcompany/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inuxmax/JVcompany.git",
+    "directory": "packages/create-jvcompany"
+  },
+  "bugs": "https://github.com/inuxmax/JVcompany/issues",
+  "author": "JVCompany contributors",
+  "license": "MIT"
+}

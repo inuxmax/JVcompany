@@ -172,7 +172,21 @@ Prefer a classic process? Switch the project to the **7-stage workflow**: Idea �
 - **MongoDB** — local (`mongodb://127.0.0.1:27017`) or MongoDB Atlas
 - *(optional)* signed-in agent CLIs: `claude`, `codex`, `gemini`, `cursor-agent`, `copilot`, `qwen`, `opencode`
 
-### Install & run
+### One command (recommended)
+
+```bash
+npx create-jvcompany@latest
+```
+
+[`create-jvcompany`](packages/create-jvcompany) downloads the latest source, creates `.env.local`, checks MongoDB (and offers to start it in Docker), installs the dependencies and opens **http://127.0.0.1:2501** — where a 4-step setup creates your company. Use `npx create-jvcompany@latest my-office --yes` to skip the questions; see `--help` for all options.
+
+No MongoDB yet?
+
+```bash
+docker run -d --name jvcompany-mongo -p 27017:27017 -v jvcompany-mongo:/data/db mongo:8
+```
+
+### Manual install
 
 ```bash
 git clone https://github.com/inuxmax/JVcompany.git

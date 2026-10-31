@@ -220,7 +220,7 @@
 
     /* Code */
     .code { position: relative; background: var(--code-bg); color: var(--code-ink); border-radius: var(--radius); padding: 22px 24px; overflow-x: auto; font-size: 15px; line-height: 1.8; }
-    .code pre { margin: 0; }
+    .code pre { margin: 0; padding-right: 64px; }
     .code .c { color: #9a8b79; }
     .copy { position: absolute; top: 12px; right: 12px; font: 600 13px 'Be Vietnam Pro', sans-serif; padding: 6px 12px; border-radius: 999px; border: 0; background: rgba(255,255,255,.1); color: var(--code-ink); cursor: pointer; }
     .copy:hover { background: rgba(255,255,255,.18); }
@@ -437,21 +437,29 @@
       <div class="wrap split">
         <div>
           <span class="eyebrow">Quick start</span>
-          <h2 id="qs-title">Up and running in two minutes</h2>
-          <p class="lead">You need <strong>Node.js 20+</strong> and <strong>MongoDB</strong> (local or Atlas). Agent CLIs you have signed in to are detected automatically.</p>
+          <h2 id="qs-title">Up and running with one command</h2>
+          <p class="lead">You need <strong>Node.js 20+</strong> and <strong>MongoDB</strong> (local, Docker or Atlas). Agent CLIs you have signed in to are detected automatically.</p>
           <ul class="ticks">
+            <li><code>create-jvcompany</code> downloads the source, writes <code>.env.local</code>, checks MongoDB and installs everything.</li>
             <li>A 4-step setup creates your company, team and first project.</li>
             <li>Prefer a desktop app? <code>npm run desktop</code> (Windows, macOS, Linux).</li>
             <li>Listens on <code>127.0.0.1</code> only — your office stays private.</li>
           </ul>
         </div>
-        <div class="code">
-          <button class="copy" type="button" data-copy="git clone https://github.com/inuxmax/JVcompany.git&#10;cd JVcompany&#10;npm install&#10;cp .env.example .env.local&#10;npm run dev">Copy</button>
+        <div>
+          <div class="code">
+            <button class="copy" type="button" data-copy="npx create-jvcompany@latest">Copy</button>
+<pre><code>npx create-jvcompany@latest   <span class="c"># → http://127.0.0.1:2501</span></code></pre>
+          </div>
+          <p style="margin:18px 0 10px;color:var(--subtle);font-size:14px">Or install manually:</p>
+          <div class="code">
+            <button class="copy" type="button" data-copy="git clone https://github.com/inuxmax/JVcompany.git&#10;cd JVcompany&#10;npm install&#10;cp .env.example .env.local&#10;npm run dev">Copy</button>
 <pre><code>git clone https://github.com/inuxmax/JVcompany.git
 cd JVcompany
 npm install
 cp .env.example .env.local   <span class="c"># set MONGODB_URI</span>
 npm run dev                  <span class="c"># http://127.0.0.1:2501</span></code></pre>
+          </div>
         </div>
       </div>
     </section>

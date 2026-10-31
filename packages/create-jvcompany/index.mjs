@@ -203,15 +203,20 @@ async function ensureMongo(uri) {
   const local = ['127.0.0.1', 'localhost', '::1'].includes(target.host) && target.port === 27017;
   if (local && has('docker') && (await confirm('Start MongoDB in Docker now?', true))) {
     closePrompt();
-    // Container đã có (đang dừng) thì bật lại, chưa có thì tạo mới
-    await run('docker', ['start', 'jvcompany-mongo'], { stdio: 'ignore' }).catch(() => run('docker', DOCKER_MONGO));
-    for (let i = 0; i < 30 && !(await reachable(target)); i++) await sleep(1000);
-    if (await reachable(target)) {
-      ok('MongoDB is running in Docker (container jvcompany-mongo)');
+    try {
+      // Container đã có (đang dừng) thì bật lại, chưa có thì tạo mới
+      await run('docker', ['start', 'jvcompany-mongo'], { stdio: 'ignore' }).catch(() => run('docker', DOCKER_MONGO));
+      for (let i = 0; i < 30 && !(await reachable(target)); i++) await sleep(1000);
+      if (await reachable(target)) {
+        ok('MongoDB is running in Docker (container jvcompany-mongo)');
+        return;
+      }
+      warn('MongoDB did not answer yet – check `docker logs jvcompany-mongo`.');
       return;
+    } catch {
+      // Docker có sẵn nhưng không chạy được (daemon chưa bật…) – không dừng cả quá trình tạo dự án.
+      warn('Could not start MongoDB in Docker – is the Docker daemon running?');
     }
-    warn('MongoDB did not answer yet – check `docker logs jvcompany-mongo`.');
-    return;
   }
   log(dim('  Start MongoDB with one of these, then run the app:'));
   log(`  • Install MongoDB Community: ${accent('https://www.mongodb.com/try/download/community')}`);

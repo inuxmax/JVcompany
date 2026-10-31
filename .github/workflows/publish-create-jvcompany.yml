@@ -1,0 +1,37 @@
+name: Publish create-jvcompany
+
+# Đẩy gói `create-jvcompany` lên npm khi tạo tag `create-jvcompany-v*`
+# (hoặc chạy tay trong tab Actions). Cần secret NPM_TOKEN (npm → Access Tokens → Automation).
+on:
+  push:
+    tags:
+      - 'create-jvcompany-v*'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # npm provenance
+    defaults:
+      run:
+        working-directory: packages/create-jvcompany
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Smoke test the CLI
+        run: |
+          node --check index.mjs
+          node index.mjs --help
+          node index.mjs --version
+
+      - name: Publish
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
